@@ -1,0 +1,8 @@
+<view class="wrapper">
+test:{{test}}, test2:{{test2}}
+<div style="{{pic}}"  bindtap="onTap">
+    <div class="innerClasses">
+        <slot></slot>
+    </div>
+</div>
+</view>
