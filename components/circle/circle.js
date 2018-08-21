@@ -54,7 +54,7 @@ Component({
    */
   methods: {
     onTap: function () {
-      this.setData({'percent': this.data.percent + 1});
+      this.setData({'percent': this.data.percent + 1, 'test2': this.data.percent + 1});
       console.log(this.data.percent);
     }
   },
@@ -63,9 +63,8 @@ Component({
   },
   attached() {
     watch(this , {
-      test(oldValue, newValue) {
-      },
       test2(oldValue, newValue) {
+        console.log(oldValue, newValue);
         this.setData({test:oldValue});
       },
     }),
@@ -87,7 +86,6 @@ Component({
       pathStyle() {
         let ret = `stroke-dasharray: ${this.data.len}px ${this.data.len}px;\
           stroke-dashoffset: ${((100 - this.data.percent) / 100 * this.data.len)}px`;
-        console.trace(ret);
         return ret;
       },
       pathString() {

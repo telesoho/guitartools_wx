@@ -1,6 +1,7 @@
 <view class="wrapper">
 <div style='background-image: url("{{circle_svg}}");{{circleSize}}'  bindtap="onTap" class="{{wrapClasses}}">
     <div class="{{innerClasses}}">
+        {{test}},{{test2}}
         <slot></slot>
     </div>
 </div>

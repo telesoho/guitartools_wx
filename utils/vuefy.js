@@ -7,7 +7,7 @@
 function watch(ctx, watchFunctions) {
   Object.keys(watchFunctions).forEach(functionName => {
     // 监控obj对象中指定的data数据，如有更新调用回调函数。
-    defineWatch(ctx, functionName, ctx.data[functionName], function (oldValue, newValue) {
+    defineDataReactive(ctx, functionName, ctx.data[functionName], function (oldValue, newValue) {
       watchFunctions[functionName].call(ctx, oldValue, newValue)
     })
   })
@@ -49,20 +49,22 @@ function computed(ctx, computedFunctions) {
   ctx.setData(firstComputedObj);
 }
 
-
 /**
  * define computed functions
+ * @param {*} ctx 
+ * @param {*} key 
+ * @param {*} fun 
  */
 function defineComputedReactive(ctx, key, fun) {
   var val;
-  let watchList = [];
+  let registerWatchFnList = [];
   Object.defineProperty(ctx.data, key, {
     configurable: true,
     enumerable: true,
     get: function () {
       if (ctx.$_regist_function) {
         // if has regist watch function, than regist it.
-        watchList[ctx.$_regist_function.funName] = ctx.$_regist_function.funObj
+        registerWatchFnList[ctx.$_regist_function.funName] = ctx.$_regist_function.funObj
       }
       if(typeof val === 'undefined') {
         val = fun.call(ctx);
@@ -74,12 +76,12 @@ function defineComputedReactive(ctx, key, fun) {
         return
       }
       // if this computed has been changed than call watching functions.
-      let watchKeys = Object.keys(watchList);
+      let watchKeys = Object.keys(registerWatchFnList);
       if (watchKeys.length) {
         // 用 setTimeout 因为此时 this.data 还没更新
         setTimeout(() => {
           watchKeys.forEach(sub => {
-            watchList[sub]();
+            registerWatchFnList[sub]();
           })
         }, 0)
       }
@@ -88,62 +90,46 @@ function defineComputedReactive(ctx, key, fun) {
   })
 }
 
-
 /**
  * define data watch functions
+ * @param {*} ctx 
+ * @param {*} dataKey 
+ * @param {*} val 
  */
-function defineDataReactive(ctx, key, val) {
-  let watchList = [];
-  Object.defineProperty(ctx.data, key, {
+function defineDataReactive(ctx, dataKey, val, watchFn) {
+  if(watchFn) {
+    if(typeof ctx.registerWatchFnList === 'undefined') {
+      ctx.registerWatchFnList = []
+    }
+    ctx.registerWatchFnList[dataKey] = watchFn;
+    console.log(ctx.registerWatchFnList[dataKey]);
+  }
+  let registerComputedNotifyFnList = [];
+  Object.defineProperty(ctx.data, dataKey, {
     configurable: true,
     enumerable: true,
     get: function () {
       if (ctx.$_regist_function) {
         // regist watch function
-        watchList[ctx.$_regist_function.funName] = ctx.$_regist_function.funObj
+        registerComputedNotifyFnList[ctx.$_regist_function.funName] = ctx.$_regist_function.funObj
       }
       return val;
     },
     set: function (newVal) {
-      if (newVal === val) return
-      let watchKeys = Object.keys(watchList);
-      console.log(key, watchKeys);
-      if (watchKeys.length) {
-        // 用 setTimeout 因为此时 this.data 还没更新
-       setTimeout(() => {
-          watchKeys.forEach(sub => {
-            watchList[sub]();
+      if (newVal === val) {
+        return
+      }
+      let computedFunctionNames = Object.keys(registerComputedNotifyFnList);
+      ctx.registerWatchFnList[dataKey] && ctx.registerWatchFnList[dataKey](val, newVal);
+      if (computedFunctionNames.length) {
+        // use setTimeout to call watch function
+        setTimeout(() => {
+          computedFunctionNames.forEach(sub => {
+            registerComputedNotifyFnList[sub]();
           })
        }, 0)
       }
-      val = newVal
-    },
-  })
-}
-
-/**
- * define watch functions
- */
-function defineWatch(ctx, key, oldVal, setFn) {
-  let watchFuns = ctx.data['$' + key] || []
-  Object.defineProperty(ctx.data, key, {
-    configurable: true,
-    enumerable: true,
-    get: function () {
-      return oldVal
-    },
-    set: function (newVal) {
-      if (newVal === oldVal) {
-        return
-      }
-      setFn && setFn(oldVal, newVal)
-      if (watchFuns.length) {
-        // 用 setTimeout，下一回执行, 因为此时 this.data 还没更新
-        setTimeout(() => {
-          watchFuns.forEach(watchFun => watchFun())
-        }, 0)
-      }
-      oldVal = newVal;
+      val = newVal;
     },
   })
 }
