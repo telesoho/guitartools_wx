@@ -11,5 +11,5 @@
     <text class="user-motto">{{motto}}</text>
   </view>
    <!-- 引用组件的页面模版 -->
-  <circle >。元按钮</circle>
+  <circle percent="80" trailWidth='6' strokeWidth='6'></circle>
 </view>
