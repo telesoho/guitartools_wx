@@ -35,46 +35,29 @@ Component({
     trailColor: {
       type: String,
       value: '#eaeef2'
-    },
-    test2: {
-      type:Number,
-      value: 1
     }
   },
  
   /**
    * 组件的初始数据
    */
-  data: {
-    test:"abc"
-  },
+  data: {},
 
   /**
    * 组件的方法列表
    */
-  methods: {
-    onTap: function () {
-      this.setData({'percent': this.data.percent + 1, 'test2': this.data.percent + 1});
-      console.log(this.data.percent);
-    }
-  },
+  methods: {},
   created() {
     console.log('created');
   },
   attached() {
-    watch(this , {
-      test2(oldValue, newValue) {
-        console.log(oldValue, newValue);
-        this.setData({test:oldValue});
-      },
-    }),
     computed(this, {
       circle_svg () {
         return `data:image/svg+xml, \
         %3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E\
-        %3Cpath d='${this.data.pathString}' stroke='${this.data.trailColor}' stroke-width='${this.data.trailWidth}' fill='0'/%3E\
+        %3Cpath d='${this.data.pathString}' stroke='${this.data.trailColor}' stroke-width='${this.data.trailWidth}' fill-opacity='0' /%3E\
         %3Cpath d='${this.data.pathString}' stroke-linecap='${this.data.strokeLinecap}' \
-        stroke='${this.data.strokeColor}' stroke-width='${this.data.strokeWidth}' style='${this.data.pathStyle}' /%3E\
+        stroke='${this.data.strokeColor}' stroke-width='${this.data.strokeWidth}' style='${this.data.pathStyle}' fill-opacity='0' /%3E\
         %3C/svg%3E`;
       },
       circleSize() {

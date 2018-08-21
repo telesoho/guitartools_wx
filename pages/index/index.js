@@ -15,6 +15,11 @@ Page({
       url: '../logs/logs'
     })
   },
+  onCircleTap: function () {
+    let myc  = this.selectComponent('#myc');
+    console.log(myc.data.percent);
+    myc.setData({'percent': myc.data.percent + 1});
+  },
   onLoad: function () {
     if (app.globalData.userInfo) {
       this.setData({

@@ -1,3 +1,37 @@
+/**
+ * vuefy.js
+ * 
+ * Author: telesoho
+ * 
+ * 使用方法：
+ * 
+Component({
+  properties: {
+    percent: {
+      type: Number,
+      value: 0
+    },
+  },
+  data: {
+    v1 : 1
+  },
+  attached() {
+    watch(this, {
+      percent() {
+        this.data.v1 = this.data.percent;
+      }
+    }),
+    computed(this, {
+      cal () {
+        return this.data.v1 * 2;
+      },
+      str_percent() {
+        return `${this.data.percent}%`;
+      }
+    })
+  }
+})
+ */
 
 /**
  * 让原生微信小程序支持类似VUE的Watch监控data变化
@@ -98,11 +132,10 @@ function defineComputedReactive(ctx, key, fun) {
  */
 function defineDataReactive(ctx, dataKey, val, watchFn) {
   if(watchFn) {
-    if(typeof ctx.registerWatchFnList === 'undefined') {
-      ctx.registerWatchFnList = []
+    if(typeof ctx.$registerWatchFnList === 'undefined') {
+      ctx.$registerWatchFnList = []
     }
-    ctx.registerWatchFnList[dataKey] = watchFn;
-    console.log(ctx.registerWatchFnList[dataKey]);
+    ctx.$registerWatchFnList[dataKey] = watchFn;
   }
   let registerComputedNotifyFnList = [];
   Object.defineProperty(ctx.data, dataKey, {
@@ -119,8 +152,13 @@ function defineDataReactive(ctx, dataKey, val, watchFn) {
       if (newVal === val) {
         return
       }
+      console.log(newVal);
+      // call watch funtion
+      if(ctx.$registerWatchFnList && ctx.$registerWatchFnList[dataKey]) {
+        ctx.$registerWatchFnList[dataKey](val, newVal);
+      }
+
       let computedFunctionNames = Object.keys(registerComputedNotifyFnList);
-      ctx.registerWatchFnList[dataKey] && ctx.registerWatchFnList[dataKey](val, newVal);
       if (computedFunctionNames.length) {
         // use setTimeout to call watch function
         setTimeout(() => {
