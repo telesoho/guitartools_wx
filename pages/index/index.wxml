@@ -14,7 +14,7 @@
     {{index}}: {{item.message}}
   </view>
   <!-- 引用组件的页面模版 -->
-  <circle id='myc' size='50' percent="80" trailWidth='10' strokeWidth='10' bindtap="onCircleTap" bindlongpress='onLongPress'>
-    <icon class='fa-spin' size="20" type='play'></icon>
+  <circle id='myc' size='50' percent="0" trailWidth='10' strokeWidth='10' bindtap="onCircleTap" bindlongpress='onLongPress'>
+    <icon class='fa-spin' size="20" type="{{paused?'play':'stop'}}"></icon>
   </circle>
 </scroll-view>  

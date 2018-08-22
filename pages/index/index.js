@@ -6,6 +6,7 @@ Page({
   data: {
     motto: 'Hello World',
     userInfo: {},
+    paused: true,
     rowData: [
       {id:11, message:"hello1"},
       {id:12, message:"hello2"},
@@ -72,9 +73,13 @@ Page({
     }
   },
   onCircleTap: function () {
-    let myc  = this.selectComponent('#myc');
-    console.log(myc.data.percent);
-    myc.setData({'percent': myc.data.percent + 1});
+    if(this.player ) {
+      if(this.player.paused) {
+        this.player.play();
+      } else {
+        this.player.pause();
+      }
+    }
   },
   onLoad: function () {
     if (app.globalData.userInfo) {
@@ -104,24 +109,36 @@ Page({
       })
     }
 
-    const innerAudioContext = wx.createInnerAudioContext()
-    innerAudioContext.autoplay = true
-    innerAudioContext.src = 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46'
-    innerAudioContext.onPlay(() => {
-        console.log('开始播放')
+    const player = wx.getBackgroundAudioManager()
+    player.title = "吉他兔"
+    player.epname = "六叠空间"
+    player.singer = "毛南子"
+    player.coverImgUrl = ''
+    player.webUrl = "https://blog.telesoho.com"
+    player.src = 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46'
+    player.onCanplay(() => {
+    });
+    player.onPause(() => {
+      this.setData({paused: true});
     })
-    innerAudioContext.onError((res) => {
-        console.log(res.errMsg)
-        console.log(res.errCode)
+    player.onStop(() => {
+      this.setData({paused: true});
+    })
+    player.onPlay(() => {
+      this.setData({paused: false});
+    })
+    player.onError((res) => {
+      console.log(res.errMsg)
+      console.log(res.errCode)
     });
 
     // onTimeUpdate	callback	音频播放进度更新事件
-    innerAudioContext.onTimeUpdate(() => {
+    player.onTimeUpdate(() => {
       let myc  = this.selectComponent('#myc');
-      myc.setData({'percent':  (innerAudioContext.currentTime / innerAudioContext.duration) * 100});
+      myc.setData({'percent':  (player.currentTime / player.duration) * 100});
     });
 
-    this.innerAudioContext = innerAudioContext;
+    this.player = player;
   },
   getUserInfo: function(e) {
     console.log(e)
