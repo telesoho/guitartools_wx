@@ -1,5 +1,5 @@
-<div style='background-image: url("{{circle_svg}}");{{circleSize}}' class="{{wrapClasses}}">
-    <div class="{{innerClasses}}">
+<view style='background-image: url("{{circle_svg}}");{{circleSize}}' class="{{wrapClasses}}">
+    <view class="{{innerClasses}}">
         <slot></slot>
-    </div>
-</div>
+    </view>
+</view>

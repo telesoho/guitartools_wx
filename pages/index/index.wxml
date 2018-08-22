@@ -11,7 +11,7 @@
     <text class="user-motto">{{motto}}</text>
   </view>
    <!-- 引用组件的页面模版 -->
-  <circle id='myc' size='50' percent="80" trailWidth='10' strokeWidth='10' bindtap="onCircleTap">
+  <circle animation="{{animationData}}" id='myc' size='50' percent="80" trailWidth='10' strokeWidth='10' bindtap="onCircleTap" bindlongpress='onLongPress'>
     <icon class='fa-spin' size="20" type='play'></icon>
   </circle>
 </view>
