@@ -14,6 +14,13 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+function toCss(obj) {
+  return Object.keys(obj).reduce((cssStr, key) => {
+    return `${cssStr} ${key}:${obj[key]};`;
+  },"");
+}
+
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  toCss
 }

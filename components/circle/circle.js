@@ -1,4 +1,4 @@
-const { watch, computed } = require('../../utils/vuefy.js')
+const { computed } = require('../../utils/vuefy.js')
 
 const prefixCls = 'ivu-chart-circle'
 

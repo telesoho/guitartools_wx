@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "circle": "/components/circle/circle"
+    "circle": "/components/circle/circle",
+    "icon" : "/components/icon/icon"
   }
 }

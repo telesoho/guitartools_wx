@@ -1,7 +1,5 @@
-<view class="wrapper">
 <div style='background-image: url("{{circle_svg}}");{{circleSize}}' class="{{wrapClasses}}">
     <div class="{{innerClasses}}">
         <slot></slot>
     </div>
 </div>
-</view>
