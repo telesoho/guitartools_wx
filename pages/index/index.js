@@ -6,6 +6,15 @@ Page({
   data: {
     motto: 'Hello World',
     userInfo: {},
+    rowData: [
+      {id:11, message:"hello1"},
+      {id:12, message:"hello2"},
+      {id:13, message:"hello3"},
+      {id:14, message:"hello4"},
+      {id:15, message:"hello5"},
+      {id:16, message:"hello6"},
+      {id:17, message:"hello7"}
+    ],
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     animationData: {}

@@ -10,20 +10,8 @@
   <view class="usermotto" animation="{{animationData}}">
     <text class="user-motto">{{motto}}</text>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+  <view wx:for="{{rowData}}" wx:key="{{id}}" style="height:3em">
+    {{index}}: {{item.message}}
   </view>
   <!-- 引用组件的页面模版 -->
   <circle id='myc' size='50' percent="80" trailWidth='10' strokeWidth='10' bindtap="onCircleTap" bindlongpress='onLongPress'>
