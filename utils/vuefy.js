@@ -152,7 +152,6 @@ function defineDataReactive(ctx, dataKey, val, watchFn) {
       if (newVal === val) {
         return
       }
-      console.log(newVal);
       // call watch funtion
       if(ctx.$registerWatchFnList && ctx.$registerWatchFnList[dataKey]) {
         ctx.$registerWatchFnList[dataKey](val, newVal);
