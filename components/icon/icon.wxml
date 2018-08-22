@@ -1,2 +1,4 @@
 <!--components/icon/icon.wxml-->
-<view class='{{classes}}' style='{{styles}}'></view>
+<view>
+<i class='{{classes}}' style='{{styles}}'></i>
+</view>

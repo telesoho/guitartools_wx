@@ -31,6 +31,13 @@ Page({
       animationData: this.animation.export()
     })
   },
+  rotateAndScaleBack: function () {
+    // 旋转同时放大
+    this.animation.rotate(0).scale(1, 1).step()
+    this.setData({
+      animationData: this.animation.export()
+    })
+  },
   rotateThenScale: function () {
     // 先旋转后放大
     this.animation.rotate(45).step()
@@ -48,23 +55,12 @@ Page({
     })
   },
   onLongPress() {
-    this.rotateAndScale();
-    const innerAudioContext = wx.createInnerAudioContext()
-    innerAudioContext.autoplay = true
-    innerAudioContext.src = 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46'
-    innerAudioContext.onPlay(() => {
-        console.log('开始播放')
-    })
-    innerAudioContext.onError((res) => {
-        console.log(res.errMsg)
-        console.log(res.errCode)
-    });
-
-    // onTimeUpdate	callback	音频播放进度更新事件
-    innerAudioContext.onTimeUpdate(() => {
-      let myc  = this.selectComponent('#myc');
-      myc.setData({'percent':  (innerAudioContext.currentTime / innerAudioContext.duration) * 100});
-    });
+    this.rotate = !this.rotate;
+    if(!this.rotate) {
+      this.rotateAndScaleBack();
+    } else {
+      this.rotateThenScale();
+    }
   },
   onCircleTap: function () {
     let myc  = this.selectComponent('#myc');
@@ -98,6 +94,25 @@ Page({
         }
       })
     }
+
+    const innerAudioContext = wx.createInnerAudioContext()
+    innerAudioContext.autoplay = true
+    innerAudioContext.src = 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46'
+    innerAudioContext.onPlay(() => {
+        console.log('开始播放')
+    })
+    innerAudioContext.onError((res) => {
+        console.log(res.errMsg)
+        console.log(res.errCode)
+    });
+
+    // onTimeUpdate	callback	音频播放进度更新事件
+    innerAudioContext.onTimeUpdate(() => {
+      let myc  = this.selectComponent('#myc');
+      myc.setData({'percent':  (innerAudioContext.currentTime / innerAudioContext.duration) * 100});
+    });
+
+    this.innerAudioContext = innerAudioContext;
   },
   getUserInfo: function(e) {
     console.log(e)

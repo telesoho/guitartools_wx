@@ -1,17 +1,32 @@
 <!--index.wxml-->
-<view class="container">
-  <view class="userinfo">
+<scroll-view class="container">
+  <view class="userinfo" animation="{{animationData}}">
     <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
     <block wx:else>
       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
     </block>
   </view>
+  <view class="usermotto" animation="{{animationData}}">
+    <text class="user-motto">{{motto}}</text>
+  </view>
   <view class="usermotto">
     <text class="user-motto">{{motto}}</text>
   </view>
-   <!-- 引用组件的页面模版 -->
-  <circle animation="{{animationData}}" id='myc' size='50' percent="80" trailWidth='10' strokeWidth='10' bindtap="onCircleTap" bindlongpress='onLongPress'>
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view>
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view>
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view>
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view>
+  <!-- 引用组件的页面模版 -->
+  <circle id='myc' size='50' percent="80" trailWidth='10' strokeWidth='10' bindtap="onCircleTap" bindlongpress='onLongPress'>
     <icon class='fa-spin' size="20" type='play'></icon>
   </circle>
-</view>
+</scroll-view>  
