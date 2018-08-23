@@ -19,3 +19,7 @@
 .usermotto {
   margin-top: 100px;
 }
+
+page {
+  background-color: lightblue;
+}
