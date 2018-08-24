@@ -10,11 +10,3 @@
     line-height: 1;
 }
 
-.ivu-chart-circle {
-    right: 1rem;
-    bottom: 1rem;
-    width: 5rem;
-    height: 5rem;
-    position:fixed;
-}
-

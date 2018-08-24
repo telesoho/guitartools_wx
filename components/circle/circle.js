@@ -61,7 +61,7 @@ Component({
         %3C/svg%3E`;
       },
       circleSize() {
-        return `width: ${this.data.size}px;height: ${this.data.size}px`;
+        return `width: ${this.data.size}rpx;height: ${this.data.size}rpx;background-size: contain;background-repeat: no-repeat;`;
       },
       len() {
         return Math.PI * 2 * this.data.radius

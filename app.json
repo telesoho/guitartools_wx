@@ -4,10 +4,11 @@
     "pages/logs/logs"
   ],
   "window":{
-    "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#FAFAFA",
     "navigationBarTitleText": "吉他兔",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle":"black",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#f9f9f9"
   },
   "networkTimeout": {
     "request": 10000,

@@ -1,0 +1,5 @@
+<!--components/GuitarPlayer/GuitarPlayer.wxml-->
+<view>
+  <div class="left-corner">telesoho</div>
+  <bloom-menu id='memu'></bloom-menu>
+</view>

@@ -3,7 +3,6 @@ const { toCss } = require('../../utils/util.js')
 
 const prefixCls = 'icon'
 
-// components/icon/icon.js
 Component({
   /**
    * 组件的属性列表
@@ -39,7 +38,7 @@ Component({
       styles () {
         let style = {}
         if (this.data.size) {
-          style['font-size'] = `${this.data.size}px`
+          style['font-size'] = `${this.data.size}rpx`
         }
         if (this.data.color) {
           style.color = this.data.color

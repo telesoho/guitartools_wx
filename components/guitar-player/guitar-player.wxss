@@ -1,0 +1,16 @@
+/* components/GuitarPlayer/GuitarPlayer.wxss */
+
+.left-corner {
+    font-size: 24rpx;
+    line-height: 36rpx;
+    width: 160rpx;
+    background: orange;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-Index: 2;
+    transform-origin: right bottom;
+    transform: translate(-29.29%, -100%) rotate(-45deg);
+    text-indent: 0;
+    text-align: center;
+}

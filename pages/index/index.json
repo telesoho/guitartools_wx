@@ -1,6 +1,5 @@
 {
   "usingComponents": {
-    "circle": "/components/circle/circle",
-    "icon" : "/components/icon/icon"
+    "guitar-player": "/components/guitar-player/guitar-player"
   }
 }

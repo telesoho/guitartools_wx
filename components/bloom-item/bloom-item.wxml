@@ -1,0 +1,5 @@
+<!--components/BloomItem/BloomItem.wxml-->
+<view class="blooming-menu__item-btn-wrapper" state='fold'>
+  <slot></slot>
+</view>
+

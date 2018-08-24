@@ -1,0 +1,55 @@
+/* components/BloomMenu/BloomMenu.wxss */
+
+.blooming-menu__item-btn {
+    color: white !important;
+}
+
+.blooming-menu__container {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    outline: none;
+    margin: 0;
+    padding: 0;
+}
+
+.blooming-menu__items {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20rpx;
+}
+
+.blooming-menu__container {
+    position: absolute;
+    right: 120rpx;
+    bottom: 120rpx;
+    border-radius: 50%;
+    user-select: none;
+}
+
+.blooming-menu__container {
+    transition: box-shadow .28s cubic-bezier(.4, 0, .2, 1);
+    box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, .26);
+    border-radius: 50%;
+    list-style-type: none;
+}
+
+.blooming-menu__main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1;
+    cursor: pointer;
+    transition: all .28s cubic-bezier(.4, 0, .2, 1);
+    border: none;
+    background-color: #A974A2;
+    color: white;
+}
+
+.blooming-menu__main-container {
+    box-shadow: 0 8rpx 17rpx 0 rgba(0, 0, 0, .2);
+}
+
