@@ -33,7 +33,6 @@ Component({
       player.singer = "毛南子"
       player.coverImgUrl = ''
       player.webUrl = "https://blog.telesoho.com"
-      player.src = theSong.songSrc;
       player.onCanplay(() => {
       });
       player.onPause(() => {
@@ -45,7 +44,12 @@ Component({
       player.onPlay(() => {
         this.setData({paused: false});
       })
+      player.onEnded(() => {
+        this.player.src = theSong.songSrc;
+      })
+
       player.onError((res) => {
+        console.log(res);
       });
   
       player.onTimeUpdate(() => {
@@ -55,6 +59,9 @@ Component({
       this.player = player;
   
       this.loadLyric(theSong.lyricSrc, theSong.chordSrc)
+
+      this.player.src = theSong.songSrc;
+
     },
 
     loadLyric (lyricSrc, chordSrc) {
@@ -100,8 +107,7 @@ Component({
     }
   },
   attached() {
-    this.menu = this.selectComponent("#memu")
-    this.playBtn = this.menu.selectComponent("#playBtn")
+    this.playBtn = this.selectComponent("#playBtn")
 
     console.log('playBtn', this.playBtn);
 

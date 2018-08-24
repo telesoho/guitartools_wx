@@ -1,6 +1,10 @@
 {
   "component": true,
   "usingComponents": {
-    "bloom-menu": "/components/bloom-menu/bloom-menu"
+    "bloom-menu": "/components/bloom-menu/bloom-menu",
+    "circle": "/components/circle/circle",
+    "icon" : "/components/icon/icon",
+    "i-button": "/components/button/button",
+    "bloom-item": "/components/bloom-item/bloom-item"
   }
 }

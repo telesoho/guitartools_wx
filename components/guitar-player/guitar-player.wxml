@@ -1,5 +1,36 @@
 <!--components/GuitarPlayer/GuitarPlayer.wxml-->
 <view>
   <div class="left-corner">telesoho</div>
-  <bloom-menu id='memu'></bloom-menu>
+  <bloom-menu id='memu'>
+    <circle slot='menu-main' percent="10" 
+        size='100'
+        trail-width="10"
+        stroke-width="10"
+        id='playBtn' bindlongpress="onOpen" bindpress="onPlay"
+        >
+        <icon class="fa-spin" size="40" type="play"></icon>
+    </circle>
+    <view slot='menu-items'>
+      <bloom-item id='loop' name='loop' class='bloom-item' >
+        <i-button class='blooming-menu__item-btn' type="ghost" size='tiny' shape="circle">
+          <icon type='loop'></icon>
+        </i-button>
+      </bloom-item>
+      <bloom-item id='muted' name='muted' class='bloom-item'>
+        <i-button class='blooming-menu__item-btn' type="ghost" size='tiny' shape="circle">
+          <icon type='volume-on'></icon>
+        </i-button>
+      </bloom-item>
+      <bloom-item id='instruments'  name='instruments' class='bloom-item'>
+        <i-button class='blooming-menu__item-btn' id='instrumentsBtn' size='tiny' type="ghost" shape="circle">
+          <icon type='volume-on'></icon>
+        </i-button>
+      </bloom-item>
+      <bloom-item id='help' name='help' class='bloom-item'>
+        <i-button class='blooming-menu__item-btn' type="ghost" size='tiny' shape="circle">
+          <icon type='help'></icon>
+        </i-button>
+      </bloom-item>
+    </view>
+  </bloom-menu>
 </view>

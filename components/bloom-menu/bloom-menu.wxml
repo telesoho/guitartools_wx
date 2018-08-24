@@ -1,34 +1,8 @@
-<view class="blooming-menu__container" bindmyevent="percent_update">
-  <view bindlongpress="onOpen" class="blooming-menu__main-container">
-    <circle percent="10" 
-        size='100'
-        trail-width="10"
-        stroke-width="10"
-        id='playBtn'
-        >
-        <icon class="fa-spin" size="40" type="play"></icon>
-    </circle>
+<view class="blooming-menu__container">
+  <view class="blooming-menu__main-container">
+    <slot name='menu-main'></slot>
   </view>
   <view class="blooming-menu__items">
-    <bloom-item id='loop' name='loop' class='bloom-item' >
-      <i-button class='blooming-menu__item-btn' type="ghost" size='tiny' shape="circle">
-        <icon type='loop'></icon>
-      </i-button>
-    </bloom-item>
-    <bloom-item id='muted' name='muted' class='bloom-item'>
-      <i-button class='blooming-menu__item-btn' type="ghost" size='tiny' shape="circle">
-        <icon type='volume-on'></icon>
-      </i-button>
-    </bloom-item>
-    <bloom-item id='instruments'  name='instruments' class='bloom-item'>
-      <i-button class='blooming-menu__item-btn' id='instrumentsBtn' size='tiny' type="ghost" shape="circle">
-        <icon type='volume-on'></icon>
-      </i-button>
-    </bloom-item>
-    <bloom-item id='help' name='help' class='bloom-item'>
-      <i-button class='blooming-menu__item-btn' type="ghost" size='tiny' shape="circle">
-        <icon type='help'></icon>
-      </i-button>
-    </bloom-item>
+    <slot name="menu-items"></slot>
   </view>
 </view>
