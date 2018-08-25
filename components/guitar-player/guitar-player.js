@@ -58,34 +58,33 @@ Component({
   
       this.player = player;
   
-      this.loadLyric(theSong.lyricSrc, theSong.chordSrc)
-
-      this.player.src = theSong.songSrc;
+      this.loadLyric(theSong)
 
     },
 
-    loadLyric (lyricSrc, chordSrc) {
+    loadLyric (song) {
       let parser = new LyricParser();
       let self = this;
       wx.request({
-        url: lyricSrc,
+        url: song.lyricSrc,
         method: "GET",
         success: function (response) {
           console.log(response);
           var lyricContent = response.data
           self.focusIndex = null
           wx.request({
-            url: chordSrc.src,
+            url: song.chordSrc.src,
             method: "GET",
             success: function (response) {
               console.log(response);
-              var ret = parser.parse(lyricContent, response.data, chordSrc.capo)
+              var ret = parser.parse(lyricContent, response.data, song.chordSrc.capo)
               self.title = ret.title
               self.artist = ret.artist
               self.capo = ret.capo
               self.player.title = ret.title
               self.player.singer = ret.artist
               self.lyricData = ret.lyricData
+              self.player.src = song.songSrc;
             },
             fail: function (error) {
               console.log('ERROR: load chord failed', error)

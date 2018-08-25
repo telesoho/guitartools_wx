@@ -2,7 +2,7 @@
 <view>
   <div class="left-corner">telesoho</div>
   <bloom-menu id='memu'>
-    <circle slot='menu-main' percent="10" 
+    <circle slot='menu-main' percent="0" 
         size='100'
         trail-width="10"
         stroke-width="10"
