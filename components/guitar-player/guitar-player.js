@@ -29,13 +29,17 @@ Component({
    */
   methods: {
     onTapMainMenu() {
-      switch(this.data.status) {
-        case 'pause':
-        case 'stop':
-          this.player.play();
-          break;
-        case 'play':
-          this.player.pause();
+      if(this.player) {
+        switch(this.data.status) {
+          case 'pause':
+          case 'stop':
+            this.player.play();
+            break;
+          case 'play':
+            this.player.pause();
+        }
+      } else {
+        this.setupPlayer()
       }
     },
 
@@ -61,6 +65,12 @@ Component({
       player.onEnded(() => {
         if(this.data.loop) {
           this.player.src = theSong.songSrc;
+        } else {
+          this.setData({
+            status: 'stop'
+          })
+          this.player.src = ""
+          this.playBtn.setData({percent:0})
         }
       })
 
@@ -81,6 +91,10 @@ Component({
     loadLyric (song) {
       let parser = new LyricParser();
       let self = this;
+      wx.showToast({
+        title: "正在加载音乐",
+        icon: "loading",
+      });
       wx.request({
         url: song.lyricSrc,
         method: "GET",
@@ -111,6 +125,7 @@ Component({
             }
           })
           self.player.src = song.songSrc;
+          wx.hideToast();
         },
         fail: function (error) {
           console.log('ERROR: load lyric failed', error)
@@ -123,10 +138,7 @@ Component({
   },
   attached() {
     this.playBtn = this.selectComponent("#playBtn")
-
     console.log('attached', this.is);
-
-    this.setupPlayer();
   },
   /**
    * 组件生命周期函数，在组件布局完成后执行，此时可以获取节点信息（使用 SelectorQuery ）
