@@ -8,9 +8,9 @@
         size='100'
         trail-width="10"
         stroke-width="10"
-        id='playBtn' bindpress="onPlay"
+        id='playBtn' bindtap="onTapMainMenu"
         >
-        <icon class="fa-spin" size="40" type="play"></icon>
+        <icon class="fa-spin" size="40" type="{{status=='play'?'pause':'play'}}"></icon>
     </circle>
     <view slot='menu-items'>
       <bloom-item id='loop' name='loop' class='bloom-item' >
@@ -25,7 +25,7 @@
       </bloom-item>
       <bloom-item id='instruments'  name='instruments' class='bloom-item'>
         <i-button class='blooming-menu__item-btn' id='instrumentsBtn' size='tiny' type="ghost" shape="circle">
-          <icon type='volume-on'></icon>
+          <icon type='guitar'></icon>
         </i-button>
       </bloom-item>
       <bloom-item id='help' name='help' class='bloom-item'>

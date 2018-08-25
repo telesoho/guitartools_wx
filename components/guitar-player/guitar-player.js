@@ -11,6 +11,9 @@ Component({
    * 组件的初始数据
    */
   data: {
+    status: 'stop',
+    loop: false,
+
     songs: [{
       songSrc: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/島唄.mp3',
       lyricSrc: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/島唄.xtrc',
@@ -25,6 +28,17 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    onTapMainMenu() {
+      switch(this.data.status) {
+        case 'pause':
+        case 'stop':
+          this.player.play();
+          break;
+        case 'play':
+          this.player.pause();
+      }
+    },
+
     setupPlayer() {
       let theSong = this.data.songs[0];
       const player = wx.getBackgroundAudioManager()
@@ -36,16 +50,18 @@ Component({
       player.onCanplay(() => {
       });
       player.onPause(() => {
-        this.setData({paused: true});
+        this.setData({status: 'pause'});
       })
       player.onStop(() => {
-        this.setData({paused: true});
+        this.setData({status: 'stop'});
       })
       player.onPlay(() => {
-        this.setData({paused: false});
+        this.setData({status: 'play'});
       })
       player.onEnded(() => {
-        this.player.src = theSong.songSrc;
+        if(this.data.loop) {
+          this.player.src = theSong.songSrc;
+        }
       })
 
       player.onError((res) => {
@@ -84,7 +100,6 @@ Component({
               self.player.title = ret.title
               self.player.singer = ret.artist
               self.lyricData = ret.lyricData
-              // self.player.src = song.songSrc;
             },
             fail: function (error) {
               console.log('ERROR: load chord failed', error)
@@ -95,6 +110,7 @@ Component({
               self.lyricData = ret.lyricData
             }
           })
+          self.player.src = song.songSrc;
         },
         fail: function (error) {
           console.log('ERROR: load lyric failed', error)
