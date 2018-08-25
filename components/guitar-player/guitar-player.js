@@ -28,6 +28,8 @@ Component({
    */
   methods: {
     onTapMainMenu() {
+      // wx.getBackgroundAudioManager的player只能在onpress之类的事件中设置才有效，否则报src为null错
+      // 同样title,epname,singer等属性也只能在事件中设定才有效
       if(!this.playing) {
         return
       }
