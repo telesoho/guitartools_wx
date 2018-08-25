@@ -1,12 +1,14 @@
 <!--components/GuitarPlayer/GuitarPlayer.wxml-->
 <view>
-  <div class="left-corner">telesoho</div>
-  <bloom-menu id='memu'>
+  <div animation="{{animationData}}" class="left-corner">telesoho</div>
+  <bloom-menu id='memu' startAngle="180" endAngle="270" radius="50"  itemAnimationDelay="40"
+    animationDuration="200">
+
     <circle slot='menu-main' percent="0" 
         size='100'
         trail-width="10"
         stroke-width="10"
-        id='playBtn' bindlongpress="onOpen" bindpress="onPlay"
+        id='playBtn' bindpress="onPlay"
         >
         <icon class="fa-spin" size="40" type="play"></icon>
     </circle>

@@ -48,9 +48,10 @@ Component({
    */
   methods: {},
   created() {
-    console.log('created');
+    console.debug('created',this.is);
   },
   attached() {
+    console.debug('attached',this.is);
     computed(this, {
       circle_svg () {
         return `data:image/svg+xml, \
@@ -87,9 +88,8 @@ Component({
         return `${prefixCls}-inner`
       }
     });
-    console.log('attached');
   },
   ready() {
-    console.log('ready');
+    console.debug('ready', this.is);
    } 
 })

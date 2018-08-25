@@ -1,35 +1,35 @@
 // components/BloomMenu/BloomMenu.js
-function toRadians (angle) {
+function toRadians(angle) {
   return angle * (Math.PI / 180)
 }
 
 Component({
   options: {
     multipleSlots: true // 在组件定义时的选项中启用多slot支持
-  },  
+  },
   /**
    * 组件的属性列表
    */
   properties: {
     startAngle: {
       type: Number,
-      default: 180
+      value: 180
     },
     endAngle: {
       type: Number,
-      default: 270
+      value: 270
     },
     radius: {
       type: Number,
-      default: 50
+      value: 50
     },
     itemAnimationDelay: {
       type: Number,
-      default: 40
+      value: 40
     },
     animationDuration: {
       type: Number,
-      default: 100
+      value: 100
     }
   },
 
@@ -44,70 +44,98 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    setMenuItems(bloom_items) {
+      if (!bloom_items) {
+        console.log('ERROR: you must define some item.')
+        return
+      }
+      this.bloom_items = bloom_items;
+      this.isOpen = false
+      this._setupAnime();
+    },
+
+    onOpenMenu() {
+      console.log('onOpenMenu', this.is, this.isOpen)
+      if (!this.bloom_items) {
+        return
+      }
+
+      this.isOpen = !this.isOpen
+
+      if(this.isOpen) {
+        this.bloom_items.forEach(function(item) {
+          item.expand()
+        });
+      } else {
+        this.bloom_items.forEach(function(item) {
+          item.fold()
+        });
+      }
+    },
+    _setupAnime: function() {
+      var ani = wx.createAnimation()
+
+      let bloom_items = this.bloom_items;
+
+      var angleStep =
+        (this.data.endAngle - this.data.startAngle) / (bloom_items.length - 1)
+      var angleCur = this.data.startAngle
+
+      for (var i = 0; i < bloom_items.length; i++) {
+        var x = this.data.radius * Math.cos(toRadians(angleCur))
+        var y = this.data.radius * Math.sin(toRadians(angleCur))
+        var x3 = Number((x).toFixed(2))
+        var y3 = Number((y).toFixed(2))
+        var x2 = x3 * 1.2
+        var y2 = y3 * 1.2
+        var x0 = 0
+        var y0 = 0
+  
+        // 生成expend动画
+        ani.translate(x2, y2).step({
+          delay: i * this.data.itemAnimationDelay,
+          duration: 0.7 * this.data.animationDuration
+        });
+        ani.translate(x3, y3).step({
+          duration: 0.3 * this.data.animationDuration,
+          timingFunction: 'ease-in'
+        });
+  
+        let expand_ani = ani.export();
+  
+        // 生成Fold动画
+        ani.translate(x2, y2).step({
+          delay: i * this.data.itemAnimationDelay,
+          duration: 0.7 * this.data.animationDuration
+        });
+        ani.translate(0, 0).step({
+          duration: 0.3 * this.data.animationDuration,
+          timingFunction: 'ease-in'
+        });
+  
+        let fold_ani = ani.export();
+  
+        bloom_items[i].setExpand(expand_ani);
+        bloom_items[i].setFold(fold_ani)
+  
+        angleCur += angleStep
+      }
+    }
   },
 
   /**
-   * 组件生命周期函数，在组件布局完成后执行，此时可以获取节点信息（使用 SelectorQuery ）
+   * 组件生命周期函数，在组件实例进入页面节点树时执行，注意此时不能调用 setData
    */
-  ready: function() {
-    console.log('ready', this);
-    let bloom_items = this.selectAllComponents('.bloom-item')
+  created: function () {},
 
-    if (!bloom_items) {
-      console.log('ERROR: you must define some item.')
-      return
-    }
+  /**
+   * 	组件生命周期函数，在组件实例进入页面节点树时执行
+   */
+  attached: function () {
+    console.log('attached', this.is);
+  },
 
-    this.isOpen = false
-
-    var angleStep =
-    (this.endAngle - this.startAngle) / (bloom_items.length - 1)
-    var angleCur = this.startAngle
-
-    for (var i = 0; i < bloom_items.length; i++) {
-      var x = this.radius * Math.cos(toRadians(angleCur))
-      var y = this.radius * Math.sin(toRadians(angleCur))
-      var x3 = Number((x).toFixed(2))
-      var y3 = Number((y).toFixed(2))
-      var x2 = x3 * 1.2
-      var y2 = y3 * 1.2
-      var x0 = 0
-      var y0 = 0
-      var expandTranslateX = [
-        {value: x0, duration: 0},
-        {value: x2, duration: 0.7 * this.animationDuration},
-        {value: x3, duration: 0.3 * this.animationDuration, easing: 'easeOutBack'}
-      ]
-      var expandTranslateY = [
-        {value: y0, duration: 0},
-        {value: y2, duration: 0.7 * this.animationDuration},
-        {value: y3, duration: 0.3 * this.animationDuration, easing: 'easeOutBack'}
-      ]
-
-      var foldTranslateX = [
-        {value: x3, duration: 0},
-        {value: x2, duration: 0.7 * this.animationDuration},
-        {value: x0, duration: 0.3 * this.animationDuration, easing: 'easeOutBack'}
-      ]
-      var foldTranslateY = [
-        {value: y3, duration: 0},
-        {value: y2, duration: 0.7 * this.animationDuration},
-        {value: y0, duration: 0.3 * this.animationDuration, easing: 'easeOutBack'}
-      ]
-
-      // this.$emit.apply(this.$slots.BloomItems[i].componentInstance, ['setAnime'].concat({
-      //   expand: {
-      //     translateX: expandTranslateX,
-      //     translateY: expandTranslateY,
-      //     delay: i * this.itemAnimationDelay
-      //   },
-      //   fold: {
-      //     translateX: foldTranslateX,
-      //     translateY: foldTranslateY,
-      //     delay: i * this.itemAnimationDelay
-      //   }
-      // }))
-      angleCur += angleStep
-    }
+  ready() {
+    console.log('ready', this.is);
   }
 })

@@ -1,5 +1,5 @@
 <view class="blooming-menu__container">
-  <view class="blooming-menu__main-container">
+  <view class="blooming-menu__main-container" bindlongpress="onOpenMenu">
     <slot name='menu-main'></slot>
   </view>
   <view class="blooming-menu__items">

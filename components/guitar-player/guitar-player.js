@@ -18,7 +18,7 @@ Component({
           src: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/島唄.chord.json',
           capo: 1
       }
-    }]
+    }],
   },
 
   /**
@@ -84,7 +84,7 @@ Component({
               self.player.title = ret.title
               self.player.singer = ret.artist
               self.lyricData = ret.lyricData
-              self.player.src = song.songSrc;
+              // self.player.src = song.songSrc;
             },
             fail: function (error) {
               console.log('ERROR: load chord failed', error)
@@ -108,8 +108,17 @@ Component({
   attached() {
     this.playBtn = this.selectComponent("#playBtn")
 
-    console.log('playBtn', this.playBtn);
+    console.log('attached', this.is);
 
     this.setupPlayer();
+  },
+  /**
+   * 组件生命周期函数，在组件布局完成后执行，此时可以获取节点信息（使用 SelectorQuery ）
+   */
+  ready: function() {
+    console.log('ready', this.is);
+    let bloom_items = this.selectAllComponents('.bloom-item')
+    let menu = this.selectComponent('#memu')
+    menu.setMenuItems(bloom_items);
   }
 })

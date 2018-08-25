@@ -9,7 +9,7 @@
     color: white;
 }
 
-.blooming-menu__item-btn-wrapper:hover {
+.blooming-menu__item-btn-wrapper {
     box-shadow: 0 8rpx 17rpx 0 rgba(0, 0, 0, .2);
 }
 

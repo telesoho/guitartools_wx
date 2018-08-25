@@ -1,5 +1,5 @@
 <!--components/BloomItem/BloomItem.wxml-->
-<view class="blooming-menu__item-btn-wrapper" state='fold'>
+<view animation="{{animationData}}" class="blooming-menu__item-btn-wrapper">
   <slot></slot>
 </view>
 
