@@ -13,7 +13,6 @@ Component({
   data: {
     status: 'stop',
     loop: false,
-
     songs: [{
       songSrc: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/島唄.mp3',
       lyricSrc: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/島唄.xtrc',
@@ -29,63 +28,65 @@ Component({
    */
   methods: {
     onTapMainMenu() {
-      if(this.player) {
-        switch(this.data.status) {
-          case 'pause':
-          case 'stop':
-            this.player.play();
-            break;
-          case 'play':
-            this.player.pause();
-        }
-      } else {
-        this.setupPlayer()
+      if(!this.playing) {
+        return
+      }
+      let player = this.getPlayer()
+
+      switch(this.data.status) {
+        case 'pause':
+          this.player.play();
+          break;
+        case 'stop':
+          player.title = this.playing.title
+          player.epname = this.playing.epname
+          player.singer = this.playing.singer
+          player.coverImgUrl = ''
+          player.webUrl = "https://blog.telesoho.com"
+          player.src = this.playing.src
+          break;
+        case 'play':
+          this.player.pause();
+          break;
       }
     },
 
-    setupPlayer() {
-      let theSong = this.data.songs[0];
-      const player = wx.getBackgroundAudioManager()
-      player.title = "吉他兔"
-      player.epname = "六叠空间"
-      player.singer = "毛南子"
-      player.coverImgUrl = ''
-      player.webUrl = "https://blog.telesoho.com"
-      player.onCanplay(() => {
-      });
-      player.onPause(() => {
-        this.setData({status: 'pause'});
-      })
-      player.onStop(() => {
-        this.setData({status: 'stop'});
-      })
-      player.onPlay(() => {
-        this.setData({status: 'play'});
-      })
-      player.onEnded(() => {
-        if(this.data.loop) {
-          this.player.src = theSong.songSrc;
-        } else {
-          this.setData({
-            status: 'stop'
-          })
-          this.player.src = ""
+    getPlayer() {
+      if(!this.player) {
+        const player = wx.getBackgroundAudioManager()
+        player.onCanplay(() => {
+        });
+        player.onPause(() => {
+          this.setData({status: 'pause'});
+        })
+        player.onStop(() => {
+          this.setData({status: 'stop'});
           this.playBtn.setData({percent:0})
-        }
-      })
-
-      player.onError((res) => {
-        console.log(res);
-      });
+        })
+        player.onPlay(() => {
+          this.setData({status: 'play'});
+        })
+        player.onEnded(() => {
+          if(this.data.loop) {
+            this.player.src = this.playing.songSrc;
+          } else {
+            this.setData({
+              status: 'stop'
+            })
+            this.playBtn.setData({percent:0})
+          }
+        })
   
-      player.onTimeUpdate(() => {
-        this.playBtn.setData({percent: (player.currentTime / player.duration) * 100})
-      });
-  
-      this.player = player;
-  
-      this.loadLyric(theSong)
-
+        player.onError((res) => {
+          console.log(res);
+        });
+    
+        player.onTimeUpdate(() => {
+          this.playBtn.setData({percent: (player.currentTime / player.duration) * 100})
+        });
+        this.player = player;
+      }
+      return this.player;
     },
 
     loadLyric (song) {
@@ -95,6 +96,7 @@ Component({
         title: "正在加载音乐",
         icon: "loading",
       });
+      self.playing = {}
       wx.request({
         url: song.lyricSrc,
         method: "GET",
@@ -108,30 +110,30 @@ Component({
             success: function (response) {
               console.log(response);
               var ret = parser.parse(lyricContent, response.data, song.chordSrc.capo)
-              self.title = ret.title
-              self.artist = ret.artist
-              self.capo = ret.capo
-              self.player.title = ret.title
-              self.player.singer = ret.artist
-              self.lyricData = ret.lyricData
+              self.playing.title = ret.title
+              self.playing.singer = ret.artist
+              self.playing.epname = "六叠空间"
+              self.playing.capo = ret.capo
+              self.playing.lyricData = ret.lyricData
             },
             fail: function (error) {
               console.log('ERROR: load chord failed', error)
               var ret = parser.parse(lyricContent, '[{"start": 0, "end": 10, "chord": "N"}]')
-              self.title = ret.title
-              self.artist = ret.artist
-              self.capo = ret.capo
-              self.lyricData = ret.lyricData
+              self.playing.title = ret.title
+              self.playing.singer = ret.artist
+              self.playing.epname = "六叠空间"
+              self.playing.capo = ret.capo
+              self.playing.lyricData = ret.lyricData
             }
           })
-          self.player.src = song.songSrc;
+          self.playing.src = song.songSrc;
           wx.hideToast();
         },
         fail: function (error) {
           console.log('ERROR: load lyric failed', error)
           var lyricContent = '[00:00.00]\n[00:10.00]'
           var ret = parser.parse(lyricContent, '[{"start": 0, "end": 10, "chord": "N"}]')
-          self.data.lyricData = ret.lyricData
+          self.playing.lyricData = ret.lyricData
         }
       });
     }
@@ -139,6 +141,7 @@ Component({
   attached() {
     this.playBtn = this.selectComponent("#playBtn")
     console.log('attached', this.is);
+    this.loadLyric(this.data.songs[0])
   },
   /**
    * 组件生命周期函数，在组件布局完成后执行，此时可以获取节点信息（使用 SelectorQuery ）
