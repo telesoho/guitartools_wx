@@ -55,7 +55,6 @@ Component({
     },
 
     onOpenMenu() {
-      console.log('onOpenMenu', this.is, this.isOpen)
       if (!this.bloom_items) {
         return
       }

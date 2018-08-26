@@ -1,14 +1,21 @@
 // components/GuitarPlayer/GuitarPlayer.js
 import {LyricParser} from "../../utils/LyricParser"
+import {watch} from "../../utils/vuefy"
+import {getRandomInt} from "../../utils/util"
+
 
 const NAV_BACKGROUND_COLOR = [ '#ffffff', '#add8e6', '#90ee90', '#A974A2', '#ff0000']
 const NAV_FRONT_COLOR = ['#000000', '#000000','#000000', '#ffffff', '#ffffff']
-
+const SONG_SERVER = "https://guitartools-1257167903.cos.ap-chengdu.myqcloud.com"
 Component({
   /**
    * 组件的属性列表
    */
   properties: {
+    songId: {
+      type: Number,
+      value: 0
+    }
   },
 
   /**
@@ -19,26 +26,34 @@ Component({
     loop: false,
     songs: [
       {
-      songSrc: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/島唄.mp3',
-      lyricSrc: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/島唄.xtrc',
+      songSrc: `${SONG_SERVER}/島唄.mp3`,
+      lyricSrc: `${SONG_SERVER}/島唄.xtrc`,
       chordSrc: {
-          src: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/島唄.chord.json',
+          src: `${SONG_SERVER}/島唄.chord.json`,
           capo: 1
         }
       },
       {
-        songSrc: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/小幸运.mp3',
-        lyricSrc: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/小幸运.trc',
+        songSrc: `${SONG_SERVER}/小幸运.mp3`,
+        lyricSrc: `${SONG_SERVER}/小幸运.trc`,
         chordSrc: {
-            src: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/小幸运.chord.json',
+            src: `${SONG_SERVER}/小幸运.chord.json`,
             capo: 0
         }
       },
       {
-        songSrc: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/借我.mp3',
-        lyricSrc: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/借我.trc',
+        songSrc: `${SONG_SERVER}/借我.mp3`,
+        lyricSrc: `${SONG_SERVER}/借我.trc`,
         chordSrc: {
-            src: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/借我.chord.json',
+            src: `${SONG_SERVER}/借我.chord.json`,
+            capo: 0
+        }
+      },
+      {
+        songSrc: `${SONG_SERVER}/春风十里-毛南子.mp3`,
+        lyricSrc: `${SONG_SERVER}/春风十里-毛南子.mp3.lrc`,
+        chordSrc: {
+            src: `${SONG_SERVER}/春风十里-毛南子.chord.json`,
             capo: 0
         }
       }
@@ -49,6 +64,10 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    onRandomNext() {
+      let newSongId =  getRandomInt(this.data.songs.length, 0, [this.data.songId])
+      this.setData({songId: newSongId })
+    },
     onTapMainMenu() {
       // wx.getBackgroundAudioManager的player只能在onpress之类的事件中设置才有效，否则报src为null错
       // 同样title,epname,singer等属性也只能在事件中设定才有效
@@ -112,11 +131,10 @@ Component({
       }
       return this.player;
     },
-    getRandomInt(max) {
-      return Math.floor(Math.random() * Math.floor(max));
-    },
     getRandomColorIndex() {
-      return this.getRandomInt(NAV_BACKGROUND_COLOR.length)
+      this.NavColorIndex = getRandomInt(NAV_BACKGROUND_COLOR.length, 0, [this.NavColorIndex])
+      console.log('this.NavColorIndex', this.NavColorIndex)
+      return this.NavColorIndex
     },
 
     loadLyric (song) {
@@ -129,13 +147,31 @@ Component({
         method: "GET",
         success: function (response) {
           console.log(response);
+          if(response.statusCode != 200) {
+            console.log('ERROR: load lyric not found', response.statusCode)
+            var lyricContent = '[00:00.00]\n[00:10.00]'
+            var ret = parser.parse(lyricContent, '[{"start": 0, "end": 10, "chord": "N"}]')
+            self.playing.lyricData = ret.lyricData
+            return
+          }
           var lyricContent = response.data
           self.focusIndex = null
+          wx.showNavigationBarLoading()
           wx.request({
             url: song.chordSrc.src,
             method: "GET",
             success: function (response) {
               console.log(response);
+              if(response.statusCode != 200) {
+                console.log('ERROR: load chord failed', response.statusCode)
+                var ret = parser.parse(lyricContent, '[{"start": 0, "end": 10, "chord": "N"}]')
+                self.playing.title = ret.title
+                self.playing.singer = ret.artist
+                self.playing.epname = "六叠空间"
+                self.playing.capo = ret.capo
+                self.playing.lyricData = ret.lyricData
+                return
+              }
               var ret = parser.parse(lyricContent, response.data, song.chordSrc.capo)
               self.playing.title = ret.title
               self.playing.singer = ret.artist
@@ -154,7 +190,7 @@ Component({
             },
             complete: function () {
               wx.setNavigationBarTitle({
-                title: self.playing.title + '-吉他兔'
+                title: `${self.playing.title} - ${self.playing.singer}`
               })
               let colorIndex = self.getRandomColorIndex();
               wx.setNavigationBarColor({
@@ -176,14 +212,24 @@ Component({
           var lyricContent = '[00:00.00]\n[00:10.00]'
           var ret = parser.parse(lyricContent, '[{"start": 0, "end": 10, "chord": "N"}]')
           self.playing.lyricData = ret.lyricData
+        },
+        complete: function() {
+          wx.hideNavigationBarLoading()
         }
       });
     }
   },
   attached() {
-    this.playBtn = this.selectComponent("#playBtn")
     console.log('attached', this.is);
-    this.loadLyric(this.data.songs[0])
+    watch(this, {
+      songId(oldValue, newValue) {
+        if(newValue < this.data.songs.length && newValue >= 0) {
+          this.loadLyric(this.data.songs[newValue])
+        }
+      }
+    })
+    this.playBtn = this.selectComponent("#playBtn")
+    this.loadLyric(this.data.songs[this.data.songId])
   },
   /**
    * 组件生命周期函数，在组件布局完成后执行，此时可以获取节点信息（使用 SelectorQuery ）

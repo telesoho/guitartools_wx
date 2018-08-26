@@ -20,7 +20,23 @@ function toCss(obj) {
   },"");
 }
 
+const getRandomInt = function(max, min=0, blacklist=[]) {
+  if(!blacklist)
+      blacklist = []
+  let rand = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+  let retv = min;
+  let tryCount = 100;
+  while(tryCount > 0 && blacklist.indexOf(retv = rand(min,max)) > -1) {
+    tryCount --;
+  }
+  if(tryCount <= 0 ) {
+    console.log('ERROR', tryCount);
+  }
+  return retv;
+}
+
 module.exports = {
   formatTime: formatTime,
-  toCss
+  toCss,
+  getRandomInt
 }

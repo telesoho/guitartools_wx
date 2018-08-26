@@ -1,6 +1,6 @@
 <!--components/GuitarPlayer/GuitarPlayer.wxml-->
 <view>
-  <div animation="{{animationData}}" class="left-corner">telesoho</div>
+  <div class="left-corner">telesoho</div>
   <bloom-menu id='memu' startAngle="180" endAngle="270" radius="50"  itemAnimationDelay="40"
     animationDuration="200">
 
@@ -23,7 +23,7 @@
           <icon type='volume-on'></icon>
         </i-button>
       </bloom-item>
-      <bloom-item id='instruments'  name='instruments' class='bloom-item'>
+      <bloom-item id='instruments'  name='instruments' class='bloom-item' bind:tap="onRandomNext">
         <i-button class='blooming-menu__item-btn' id='instrumentsBtn' size='tiny' type="ghost" shape="circle">
           <icon type='guitar'></icon>
         </i-button>
