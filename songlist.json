@@ -1,0 +1,26 @@
+[
+    {
+        "songSrc": "https://guitartools-1257167903.cos.ap-chengdu.myqcloud.com/島唄.mp3",
+        "lyricSrc": "https://guitartools-1257167903.cos.ap-chengdu.myqcloud.com/島唄.xtrc",
+        "chordSrc": {
+            "src": "https://guitartools-1257167903.cos.ap-chengdu.myqcloud.com/島唄.chord.json",
+            "capo": 1
+        }
+    },
+    {
+        "songSrc": "https://guitartools-1257167903.cos.ap-chengdu.myqcloud.com/小幸运.mp3",
+        "lyricSrc": "https://guitartools-1257167903.cos.ap-chengdu.myqcloud.com/小幸运.trc",
+        "chordSrc": {
+            "src": "https://guitartools-1257167903.cos.ap-chengdu.myqcloud.com/小幸运.chord.json",
+            "capo": 0
+        }
+    },
+    {
+        "songSrc": "https://guitartools-1257167903.cos.ap-chengdu.myqcloud.com/借我.mp3",
+        "lyricSrc": "https://guitartools-1257167903.cos.ap-chengdu.myqcloud.com/借我.trc",
+        "chordSrc": {
+            "src": "https://guitartools-1257167903.cos.ap-chengdu.myqcloud.com/借我.chord.json",
+            "capo": 0
+        }
+    }
+]

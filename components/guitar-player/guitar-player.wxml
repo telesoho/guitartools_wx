@@ -3,7 +3,6 @@
   <div class="left-corner">telesoho</div>
   <bloom-menu id='memu' startAngle="180" endAngle="270" radius="50"  itemAnimationDelay="40"
     animationDuration="200">
-
     <circle slot='menu-main' percent="0" 
         size='100'
         trail-width="10"

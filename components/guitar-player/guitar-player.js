@@ -7,6 +7,8 @@ import {getRandomInt} from "../../utils/util"
 const NAV_BACKGROUND_COLOR = [ '#ffffff', '#add8e6', '#90ee90', '#A974A2', '#ff0000']
 const NAV_FRONT_COLOR = ['#000000', '#000000','#000000', '#ffffff', '#ffffff']
 const SONG_SERVER = "https://guitartools-1257167903.cos.ap-chengdu.myqcloud.com"
+const SONG_LIST = `${SONG_SERVER}/songlist.json`
+
 Component({
   /**
    * 组件的属性列表
@@ -223,6 +225,21 @@ Component({
           wx.hideNavigationBarLoading()
         }
       });
+    },
+    loadSongList($songlist_url) {
+      let self = this;
+      wx.request({
+        url: $songlist_url,
+        method: "GET",
+        success: function (response) {
+          if(response.statusCode == 200) {
+            console.log('response.data', response.data);
+            self.setData({
+              songs: response.data
+            })
+          }
+        }
+      });
     }
   },
   attached() {
@@ -237,6 +254,7 @@ Component({
       }
     })
     this.playBtn = this.selectComponent("#playBtn")
+    this.loadSongList(SONG_LIST);
     this.loadLyric(this.data.songs[this.data.songId])
   },
   /**
