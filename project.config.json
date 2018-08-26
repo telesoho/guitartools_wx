@@ -11,7 +11,7 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.2.3",
+	"libVersion": "2.2.1",
 	"appid": "wxd11a8d3ec8f90d32",
 	"projectname": "%2Fhome%2Ftelesoho%2Fprjs%2Fguitaotools_wx",
 	"isGameTourist": false,
@@ -24,13 +24,25 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
 			"currentL": -1,
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 0,
+			"list": [
+				{
+					"id": 0,
+					"name": "场景为歌曲id",
+					"pathName": "pages/index/index",
+					"query": "scene=1",
+					"scene": "1074"
+				}
+			]
 		}
 	}
 }

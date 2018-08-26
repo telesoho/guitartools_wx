@@ -9,10 +9,10 @@ Page({
   onShow: function () {
   },
   onLoad: function (option) {
-    console.log('onLoad', this.is, option)
+    console.log('onLoad', this.is, option.scene)
     this.player = this.selectComponent("#guitar_player")
-    if(typeof option.ids !== 'undefined') {
-      this.player.setData({sid:parseInt(option.sid)})
+    if(typeof option.scene !== 'undefined') {
+      this.player.setData({songId:parseInt(option.scene)})
     }
   },
   onShareAppMessage(res){
@@ -23,7 +23,7 @@ Page({
     console.log(this.player)
     return {
       title: this.player.playing.title,
-      path: `/index/index?sid=${this.player.data.sid}`,
+      path: `/index/index?scene=${this.player.data.songId}`,
       imageUrl: 'http://capi.haibaobei-ec.com/hqrcode?caption=%E5%B0%8F%E7%A8%8B%E5%BA%8F&txt=%E4%BD%A0%E5%A5%BD%E5%B0%8F%E7%A8%8B%E5%BA%8F/qrcode.png'
     }
   }  
