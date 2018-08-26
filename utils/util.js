@@ -20,17 +20,22 @@ function toCss(obj) {
   },"");
 }
 
+/**
+ * This JavaScript function always returns a random number between min (included) and max (excluded):
+ * @param {*} max 
+ * @param {*} min 
+ * @param {*} blacklist 
+ */
 const getRandomInt = function(max, min=0, blacklist=[]) {
-  if(!blacklist)
-      blacklist = []
   let rand = (min, max) => Math.floor(Math.random() * (max - min)) + min;
   let retv = min;
-  let tryCount = 100;
-  while(tryCount > 0 && blacklist.indexOf(retv = rand(min,max)) > -1) {
-    tryCount --;
-  }
-  if(tryCount <= 0 ) {
-    console.log('ERROR', tryCount);
+  if(blacklist) {
+    let tryCount = 100;
+    while(tryCount > 0 && blacklist.indexOf(retv = rand(min,max)) > -1) {
+      tryCount --;
+    }
+  } else {
+    retv = rand(min,max)
   }
   return retv;
 }

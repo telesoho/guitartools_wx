@@ -147,60 +147,59 @@ Component({
 
     loadLyric (song) {
       let parser = new LyricParser();
-      let self = this;
       wx.showNavigationBarLoading()
-      self.playing = {}
+      this.playing = {}
       wx.request({
         url: song.lyricSrc,
         method: "GET",
-        success: function (response) {
+        success: (response) => {
           console.log(response);
           if(response.statusCode != 200) {
             console.log('ERROR: load lyric not found', response.statusCode)
             var lyricContent = '[00:00.00]\n[00:10.00]'
             var ret = parser.parse(lyricContent, '[{"start": 0, "end": 10, "chord": "N"}]')
-            self.playing.lyricData = ret.lyricData
+            this.playing.lyricData = ret.lyricData
             return
           }
           var lyricContent = response.data
-          self.focusIndex = null
+          this.focusIndex = null
           wx.showNavigationBarLoading()
           wx.request({
             url: song.chordSrc.src,
             method: "GET",
-            success: function (response) {
+            success: (response) => {
               console.log(response);
               if(response.statusCode != 200) {
                 console.log('ERROR: load chord failed', response.statusCode)
                 var ret = parser.parse(lyricContent, '[{"start": 0, "end": 10, "chord": "N"}]')
-                self.playing.title = ret.title
-                self.playing.singer = ret.artist
-                self.playing.epname = "六叠空间"
-                self.playing.capo = ret.capo
-                self.playing.lyricData = ret.lyricData
+                this.playing.title = ret.title
+                this.playing.singer = ret.artist
+                this.playing.epname = "六叠空间"
+                this.playing.capo = ret.capo
+                this.playing.lyricData = ret.lyricData
                 return
               }
               var ret = parser.parse(lyricContent, response.data, song.chordSrc.capo)
-              self.playing.title = ret.title
-              self.playing.singer = ret.artist
-              self.playing.epname = "六叠空间"
-              self.playing.capo = ret.capo
-              self.playing.lyricData = ret.lyricData
+              this.playing.title = ret.title
+              this.playing.singer = ret.artist
+              this.playing.epname = "六叠空间"
+              this.playing.capo = ret.capo
+              this.playing.lyricData = ret.lyricData
             },
-            fail: function (error) {
+            fail: (error) => {
               console.log('ERROR: load chord failed', error)
               var ret = parser.parse(lyricContent, '[{"start": 0, "end": 10, "chord": "N"}]')
-              self.playing.title = ret.title
-              self.playing.singer = ret.artist
-              self.playing.epname = "六叠空间"
-              self.playing.capo = ret.capo
-              self.playing.lyricData = ret.lyricData
+              this.playing.title = ret.title
+              this.playing.singer = ret.artist
+              this.playing.epname = "六叠空间"
+              this.playing.capo = ret.capo
+              this.playing.lyricData = ret.lyricData
             },
-            complete: function () {
+            complete: () => {
               wx.setNavigationBarTitle({
-                title: `${self.playing.title} - ${self.playing.singer}`
+                title: `${this.playing.title} - ${this.playing.singer}`
               })
-              let colorIndex = self.getRandomColorIndex();
+              let colorIndex = this.getRandomColorIndex();
               wx.setNavigationBarColor({
                 frontColor: NAV_FRONT_COLOR[colorIndex],
                 backgroundColor: NAV_BACKGROUND_COLOR[colorIndex],
@@ -213,31 +212,33 @@ Component({
             }
           })
 
-          self.playing.src = song.songSrc;
+          this.playing.src = song.songSrc;
         },
-        fail: function (error) {
+        fail: (error) => {
           console.log('ERROR: load lyric failed', error)
           var lyricContent = '[00:00.00]\n[00:10.00]'
           var ret = parser.parse(lyricContent, '[{"start": 0, "end": 10, "chord": "N"}]')
-          self.playing.lyricData = ret.lyricData
+          this.playing.lyricData = ret.lyricData
         },
-        complete: function() {
+        complete: () => {
           wx.hideNavigationBarLoading()
         }
       });
     },
     loadSongList($songlist_url) {
-      let self = this;
       wx.request({
         url: $songlist_url,
         method: "GET",
-        success: function (response) {
+        success: (response) => {
           if(response.statusCode == 200) {
             console.log('response.data', response.data);
-            self.setData({
+            this.setData({
               songs: response.data
             })
           }
+        },
+        complete: () => {
+          this.loadLyric(this.data.songs[this.data.songId])
         }
       });
     }
@@ -255,7 +256,6 @@ Component({
     })
     this.playBtn = this.selectComponent("#playBtn")
     this.loadSongList(SONG_LIST);
-    this.loadLyric(this.data.songs[this.data.songId])
   },
   /**
    * 组件生命周期函数，在组件布局完成后执行，此时可以获取节点信息（使用 SelectorQuery ）
