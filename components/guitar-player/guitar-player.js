@@ -76,9 +76,6 @@ Component({
     onTapMainMenu() {
       // wx.getBackgroundAudioManager的player只能在onpress之类的事件中设置才有效，否则报src为null错
       // 同样title,epname,singer等属性也只能在事件中设定才有效
-      if(!this.playing) {
-        return
-      }
       let player = this.getPlayer()
 
       switch(this.data.status) {
@@ -103,6 +100,7 @@ Component({
       if(!this.player) {
         const player = wx.getBackgroundAudioManager()
         player.onCanplay(() => {
+          wx.hideNavigationBarLoading()
         });
         player.onPause(() => {
           this.setData({status: 'pause'});
@@ -125,6 +123,9 @@ Component({
           }
         })
   
+        player.onWaiting((res)=>{
+          wx.showNavigationBarLoading()
+        })
         player.onError((res) => {
           console.log(res);
         });
@@ -229,6 +230,8 @@ Component({
     watch(this, {
       songId(oldValue, newValue) {
         if(newValue < this.data.songs.length && newValue >= 0) {
+          let player = this.getPlayer();
+          player.stop();
           this.loadLyric(this.data.songs[newValue])
         }
       }
