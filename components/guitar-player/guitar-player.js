@@ -1,5 +1,9 @@
 // components/GuitarPlayer/GuitarPlayer.js
 import {LyricParser} from "../../utils/LyricParser"
+
+const NAV_BACKGROUND_COLOR = [ '#ffffff', '#add8e6', '#90ee90', '#A974A2', '#ff0000']
+const NAV_FRONT_COLOR = ['#000000', '#000000','#000000', '#ffffff', '#ffffff']
+
 Component({
   /**
    * 组件的属性列表
@@ -13,14 +17,32 @@ Component({
   data: {
     status: 'stop',
     loop: false,
-    songs: [{
+    songs: [
+      {
       songSrc: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/島唄.mp3',
       lyricSrc: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/島唄.xtrc',
       chordSrc: {
           src: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/島唄.chord.json',
           capo: 1
+        }
+      },
+      {
+        songSrc: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/小幸运.mp3',
+        lyricSrc: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/小幸运.trc',
+        chordSrc: {
+            src: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/小幸运.chord.json',
+            capo: 0
+        }
+      },
+      {
+        songSrc: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/借我.mp3',
+        lyricSrc: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/借我.trc',
+        chordSrc: {
+            src: 'https://haibaobei.oss-cn-hangzhou.aliyuncs.com/upload/借我.chord.json',
+            capo: 0
+        }
       }
-    }],
+    ]
   },
 
   /**
@@ -90,14 +112,17 @@ Component({
       }
       return this.player;
     },
+    getRandomInt(max) {
+      return Math.floor(Math.random() * Math.floor(max));
+    },
+    getRandomColorIndex() {
+      return this.getRandomInt(NAV_BACKGROUND_COLOR.length)
+    },
 
     loadLyric (song) {
       let parser = new LyricParser();
       let self = this;
-      wx.showToast({
-        title: "正在加载音乐",
-        icon: "loading",
-      });
+      wx.showNavigationBarLoading()
       self.playing = {}
       wx.request({
         url: song.lyricSrc,
@@ -126,10 +151,25 @@ Component({
               self.playing.epname = "六叠空间"
               self.playing.capo = ret.capo
               self.playing.lyricData = ret.lyricData
+            },
+            complete: function () {
+              wx.setNavigationBarTitle({
+                title: self.playing.title + '-吉他兔'
+              })
+              let colorIndex = self.getRandomColorIndex();
+              wx.setNavigationBarColor({
+                frontColor: NAV_FRONT_COLOR[colorIndex],
+                backgroundColor: NAV_BACKGROUND_COLOR[colorIndex],
+                animation: {
+                    duration: 400,
+                    timingFunc: 'easeIn'
+                }
+              })
+              wx.hideNavigationBarLoading()
             }
           })
+
           self.playing.src = song.songSrc;
-          wx.hideToast();
         },
         fail: function (error) {
           console.log('ERROR: load lyric failed', error)
