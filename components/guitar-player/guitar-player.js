@@ -64,9 +64,14 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    onRandomNext() {
+    onRandomNext(e) {
       let newSongId =  getRandomInt(this.data.songs.length, 0, [this.data.songId])
       this.setData({songId: newSongId })
+    },
+    onNavTo(e) {
+      wx.navigateTo({
+        url:'/pages/index/index?sid=3'
+      })
     },
     onTapMainMenu() {
       // wx.getBackgroundAudioManager的player只能在onpress之类的事件中设置才有效，否则报src为null错

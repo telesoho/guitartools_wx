@@ -13,7 +13,7 @@
   <!-- <view wx:for="{{rowData}}" wx:key="{{id}}" style="height:3em">
     {{index}}: {{item.message}}
   </view> -->
-  <guitar-player></guitar-player>
+  <guitar-player id='guitar_player'></guitar-player>
   <!-- 引用组件的页面模版 -->
   <!-- <circle id='myc' size='50' percent="0" trailWidth='10' strokeWidth='10' bindtap="onCircleTap" bindlongpress='onLongPress'>
     <icon class='fa-spin' size="20" type="{{paused?'play':'stop'}}"></icon>
