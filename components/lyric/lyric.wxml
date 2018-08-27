@@ -1,0 +1,20 @@
+<!--components/lyric/lyric.wxml-->
+<scroll-view id='lyric' class='lyricPage' scroll-y>
+    <view class="lyric__section">
+    <view class="lyricRow page__title">歌曲名：{{playing.title}}</view>
+    <view class="lyricRow page__desc weui-flex">
+        <view class="weui-flex__item">演唱：{{playing.artist}}</view>
+        <view class="weui-flex__item">变调夹：{{playing.capo}}</view>
+    </view>
+    </view>
+    <view class='lyric__section'>
+        <view class="lyricRow weui-article__h2" >测试<c>Fm</c><t>和弦咋啊</t></view>
+        <view class="lyricRow weui-article__h2" >
+            <c>Fm</c><c>B7</c><t>和弦啊啊啊啊</t>
+        </view>
+        <view class="lyricRow weui-article__h2"  wx:for="{{playing.lyricData}}" wx:key="time">{{item.lrcText}}</view>
+    </view>
+    <view class="lyric__section weui-loadmore weui-loadmore_line">
+        <view class="weui-loadmore__tips weui-loadmore__tips_in-line">让子弹先飞一会儿</view>
+    </view>
+</scroll-view>

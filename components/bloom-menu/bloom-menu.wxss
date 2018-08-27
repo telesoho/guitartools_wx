@@ -23,7 +23,7 @@
 
 
 .blooming-menu__container {
-    position: absolute;
+    position: fixed;
     right: 120rpx;
     bottom: 120rpx;
     border-radius: 50%;

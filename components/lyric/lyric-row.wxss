@@ -1,0 +1,16 @@
+/* components/lyric/lyric-row.wxss */
+
+.chordWrap {
+    display: flex;
+    position: relative;
+    top: -20px;
+    color: black;
+    flex-wrap: wrap;
+}
+
+.lyric {
+    position: relative;
+    font-weight: bold;
+    font-size: 1.0em;
+    margin-right: 15px;
+}

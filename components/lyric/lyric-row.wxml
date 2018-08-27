@@ -1,0 +1,7 @@
+<!--components/lyric/lyric-row.wxml-->
+<view time='this.lyricData.time' focus='this.lyricData.focus'>
+    <!-- <view class="chordWrap" >
+        <Chord v-for="chord in lyricData.chords" key="chord.start" chord='chord'></Chord>
+    </view> -->
+    <view class="lyric" v-html='this.lyricData.lrcText'></view>
+</view>

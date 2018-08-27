@@ -5,6 +5,7 @@
     "circle": "/components/circle/circle",
     "icon" : "/components/icon/icon",
     "i-button": "/components/button/button",
-    "bloom-item": "/components/bloom-item/bloom-item"
+    "bloom-item": "/components/bloom-item/bloom-item",
+    "lyric": "/components/lyric/lyric"
   }
 }

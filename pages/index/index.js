@@ -16,6 +16,8 @@ Page({
     } else if(typeof opt.scene !== 'undefined') {
       var scene = decodeURIComponent(opt.scene)
       this.player.setData({songId:parseInt(scene)})
+    } else {
+      this.player.setData({songId: 0})
     }
   },
   onShareAppMessage(res){
@@ -23,10 +25,10 @@ Page({
       // 来自页面内转发按钮
       console.log(res.target)
     }
-    console.log(this.player)
+    console.log(this.player.data)
     return {
-      title: this.player.playing.title,
-      path: `/pages/index/index?scene=${this.player.data.songId}`,
+      title: this.player.lyric.playing.title,
+      path: `/pages/index/index?songId=${this.player.data.songId}`,
     }
   }  
 })

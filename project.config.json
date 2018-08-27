@@ -38,7 +38,7 @@
 				{
 					"id": 0,
 					"name": "场景为歌曲id",
-					"pathName": "/pages/index/index",
+					"pathName": "pages/index/index",
 					"query": "scene=1&songId=1",
 					"scene": "1074"
 				}

@@ -1,6 +1,7 @@
 <!--components/GuitarPlayer/GuitarPlayer.wxml-->
 <view>
-  <div class="left-corner">telesoho</div>
+  <!-- <div class="left-corner">telesoho</div> -->
+  <lyric id='lyric'></lyric>
   <bloom-menu id='memu' startAngle="180" endAngle="270" radius="50"  itemAnimationDelay="40"
     animationDuration="200">
     <circle slot='menu-main' percent="0" 
@@ -17,7 +18,7 @@
           <icon type='loop'></icon>
         </i-button>
       </bloom-item>
-      <bloom-item id='muted' name='muted' class='bloom-item' bind:tap="onNavTo">
+      <bloom-item id='muted' name='muted' class='bloom-item'>
         <i-button class='blooming-menu__item-btn' type="ghost" size='tiny' shape="circle">
           <icon type='volume-on'></icon>
         </i-button>
