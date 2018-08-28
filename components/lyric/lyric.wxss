@@ -246,3 +246,7 @@ t {
     left: -1em;
     position: relative;
 }
+
+t.i_0 {
+    left: 0em;
+}

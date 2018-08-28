@@ -33,13 +33,20 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 1,
 			"list": [
 				{
 					"id": 0,
 					"name": "场景为歌曲id",
 					"pathName": "pages/index/index",
 					"query": "scene=1&songId=1",
+					"scene": "1074"
+				},
+				{
+					"id": -1,
+					"name": "单体测试",
+					"pathName": "pages/tests/unittest",
+					"query": "",
 					"scene": "1074"
 				}
 			]

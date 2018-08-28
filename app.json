@@ -1,11 +1,12 @@
 {
-  "pages":[
-    "pages/index/index"
+  "pages": [
+    "pages/index/index",
+    "pages/tests/unittest"
   ],
-  "window":{
+  "window": {
     "navigationBarBackgroundColor": "#FAFAFA",
     "navigationBarTitleText": "吉他兔",
-    "navigationBarTextStyle":"black",
+    "navigationBarTextStyle": "black",
     "backgroundTextStyle": "dark",
     "backgroundColor": "#f9f9f9"
   },
