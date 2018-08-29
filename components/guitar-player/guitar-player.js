@@ -73,18 +73,18 @@ Component({
 
       switch(this.data.status) {
         case 'pause':
-          this.player.play();
+          player.play();
           break;
         case 'stop':
-          player.title = this.lyric.playing.title
-          player.epname = this.lyric.playing.epname
-          player.singer = this.lyric.playing.singer
+          player.title = this.lyric.data.playing.title
+          player.epname = this.lyric.data.playing.epname
+          player.singer = this.lyric.data.playing.singer
           player.coverImgUrl = ''
           player.webUrl = "https://blog.telesoho.com"
-          player.src = this.lyric.playing.src
+          player.src = this.playing_song.songSrc
           break;
         case 'play':
-          this.player.pause();
+          player.pause();
           break;
       }
     },
@@ -124,6 +124,8 @@ Component({
         });
     
         player.onTimeUpdate(() => {
+          this.lyric.scrollTo(player.currentTime * 100);
+
           this.playBtn.setData({percent: (player.currentTime / player.duration) * 100})
         });
         this.player = player;
@@ -152,7 +154,8 @@ Component({
         if(newValue < this.data.songs.length && newValue >= 0) {
           let player = this.getPlayer();
           player.stop();
-          this.lyric.loadLyric(this.data.songs[newValue])
+          this.playing_song = this.data.songs[newValue]
+          this.lyric.loadLyric(this.playing_song)
         }
       }
     })

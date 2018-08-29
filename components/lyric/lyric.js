@@ -107,28 +107,54 @@ Component({
    * 组件的初始数据
    */
   data: {
-    focusIndex: 0,
+    screenHeight: 800,
+    toView: '',
     playing:{
       title: '',
       artist: '',
       capo: 0,
-      lyricData: [{
-        time: 0,
-        chords: [],
-        lrcText: '',
-        focus: false
-      }]
+      lyricData: []
     },
     repeat: {
       startIndex: -1,
       endIndex: -1
     }
   },
+  attached() {
+    console.log('attached', this.is);
+    var systemInfo = wx.getSystemInfoSync();
+    console.log(systemInfo);
 
+    this.setData({
+      screenHeight: systemInfo.windowHeight
+    });
+  },    
   /**
    * 组件的方法列表
    */
   methods: {
+    scrollTo(currentTime) {
+      let k = this.getLyricIndex(currentTime);
+      console.log(k, this.data.toView)
+      if(k !== null && this.data.toView != k) {
+        this.setData({
+          toView : k
+        })
+      }
+    },
+    getLyricIndex(currentTime) {
+      let lyricData = this.data.playing.lyricData;
+      for (var k in lyricData){
+        let element = lyricData[k]
+        if(element.type === 'lyric') {
+          console.log('getLyricIndex', currentTime, element)
+          if(currentTime >= element.data.time && currentTime <= element.data.endTime) {
+            return `lyric_id${k}`
+          }
+        }
+      }
+      return null
+    },
     getRandomColor() {
       this.NavColorIndex = getRandomInt(NAV_BACKGROUND_COLOR.length, 0, [this.NavColorIndex])
       return { frontColor: NAV_FRONT_COLOR[this.NavColorIndex],
@@ -139,12 +165,6 @@ Component({
       console.log('parseLyricDataV2', this.is)
       let parser = new LyricParserV2();
       var ret = parser.parse(lyricContent)
-      // this.playing.title = ret.title
-      // this.playing.singer = ret.artist
-      // this.playing.epname = "六叠空间"
-      // this.playing.capo = ret.capo
-      // this.playing.lyricData = ret.lyricData
-      this.playing.src = song.songSrc;
       this.setData({
         playing: ret
       })
@@ -160,28 +180,28 @@ Component({
             timingFunc: 'easeIn'
         }
       })
-    },    
-    parseLyricData(song, lyricContent, chordContent) {
-      console.log('parseLyricData', this.is)
-      let parser = new LyricParser();
-      var lyric = parser.parse(lyricContent, chordContent, song.chordSrc.capo)
-      // this.playing.src = song.songSrc;
-      this.setData({
-        playing: lyric
-      })
-      wx.setNavigationBarTitle({
-        title: `${lyric.title} - ${lyric.artist}`
-      })
-      let color = this.getRandomColor();
-      wx.setNavigationBarColor({
-        frontColor: color.frontColor,
-        backgroundColor:color.backgroundColor,
-        animation: {
-            duration: 200,
-            timingFunc: 'easeIn'
-        }
-      })
     },
+    // parseLyricData(song, lyricContent, chordContent) {
+    //   console.log('parseLyricData', this.is)
+    //   let parser = new LyricParser();
+    //   var lyric = parser.parse(lyricContent, chordContent, song.chordSrc.capo)
+    //   // this.playing.src = song.songSrc;
+    //   this.setData({
+    //     playing: lyric
+    //   })
+    //   wx.setNavigationBarTitle({
+    //     title: `${lyric.title} - ${lyric.artist}`
+    //   })
+    //   let color = this.getRandomColor();
+    //   wx.setNavigationBarColor({
+    //     frontColor: color.frontColor,
+    //     backgroundColor:color.backgroundColor,
+    //     animation: {
+    //         duration: 200,
+    //         timingFunc: 'easeIn'
+    //     }
+    //   })
+    // },
     loadLyric (song) {
       this.playing = {}
       wx.showNavigationBarLoading()
@@ -206,49 +226,6 @@ Component({
         },
         complete: () => {
           this.parseLyricDataV2(song, TEST_LYRIC)
-          wx.hideNavigationBarLoading()
-        }
-      });      
-    },
-    loadLyric2 (song) {
-      wx.showNavigationBarLoading()
-      this.playing = {}
-      var lyricContent = '[00:00.00]\n[00:10.00]'
-      var chordContent = '[{"start": 0, "end": 10, "chord": "N"}]'
-
-      wx.request({
-        url: song.lyricSrc,
-        method: "GET",
-        success: (response) => {
-          console.log(response);
-          if(response.statusCode != 200) {
-            console.log('ERROR: load lyric failed', response.statusCode)
-            return
-          }
-          lyricContent = response.data
-          this.focusIndex = null
-          // wx.showNavigationBarLoading()
-          // wx.request({
-          //   url: song.chordSrc.src,
-          //   method: "GET",
-          //   success: (response) => {
-          //     console.log(response);
-          //     if(response.statusCode != 200) {
-          //       console.log('ERROR: load chord failed', response.statusCode)
-          //       return
-          //     }
-          //     chordContent = response.data
-          //   },
-          //   fail: (error) => {
-          //     console.log('ERROR: load chord failed', error)
-          //   }
-          // })
-        },
-        fail: (error) => {
-          console.log('ERROR: load lyric failed', error)
-        },
-        complete: () => {
-          this.parseLyricData(song, lyricContent, chordContent)
           wx.hideNavigationBarLoading()
         }
       });

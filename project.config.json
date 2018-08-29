@@ -33,13 +33,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
 					"name": "场景为歌曲id",
 					"pathName": "pages/index/index",
-					"query": "scene=1&songId=1",
+					"query": "scene=0&songId=0",
 					"scene": "1074"
 				},
 				{

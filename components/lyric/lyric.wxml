@@ -1,5 +1,7 @@
 <!--components/lyric/lyric.wxml-->
-<scroll-view id='lyric' class='lyricPage' scroll-y>
+<scroll-view id='lyric' class='lyricPage' scroll-y scroll-into-view="{{toView}}" 
+    style="height:{{screenHeight}}px;"
+    scroll-with-animation="true">
     <view class="lyric__section">
         <view class="lyric__title">{{playing.title}}</view>
         <view class="lyric__desc">
@@ -27,7 +29,7 @@
     </view>
     <view class='lyric__section'>
         <block wx:for="{{playing.lyricData}}" wx:for-index="indexLine" wx:key="indexLine" wx:for-item="line">
-            <view class="lyricRow lyric-article__h2" wx:if="{{line.type=='lyric'}}" >
+            <view id='lyric_id{{indexLine}}' class="lyricRow lyric-article__h2" wx:if="{{line.type=='lyric'}}" >
                 <block wx:for="{{line.data.nodes}}" wx:for-index="indexNode" wx:key="indexNode" wx:for-item="node">
                     <c wx:if="{{node.node=='c'}}">{{node.content}}</c>
                     <t class="i_{{indexNode}}" wx:elif="{{node.node=='t'}}">{{node.content}}</t>
