@@ -1,29 +1,29 @@
 <!--components/lyric/lyric.wxml-->
 <scroll-view id='lyric' class='lyricPage' scroll-y>
     <view class="lyric__section">
-    <view class="lyricRow lyric__title">{{playing.title}}</view>
-    <view class="lyricRow">
-        <view class ="lyric__desc lyric-flex">
-            <view class="lyric-flex__item">演唱：{{playing.artist}}</view>
-            <view class="lyric-flex__item">作曲:{{playing.composerBy}}</view>
+        <view class="lyric__title">{{playing.title}}</view>
+        <view class="lyric__desc">
+            <view class ="lyric-flex">
+                <view class="lyric-flex__item">演唱：{{playing.artist}}</view>
+                <view class="lyric-flex__item">作曲:{{playing.composerBy}}</view>
+            </view>
+            <view class ="lyric-flex">
+                <view class="lyric-flex__item"></view>
+                <view class="lyric-flex__item">作词:{{playing.lyricBy}}</view>
+            </view>
+            <view class ="lyric-flex">
+                <view class="lyric-flex__item">专辑:{{playing.album}}</view>
+                <view class="lyric-flex__item">原调：{{playing.OriginalTone}}</view>
+            </view>
+            <view class ="lyric-flex">
+                <view class="lyric-flex__item"></view>
+                <view class="lyric-flex__item">选调：{{playing.SelectTone}}</view>
+            </view>
+            <view class ="lyric-flex">
+                <view class="lyric-flex__item">歌词制作：{{playing.creator}}</view>
+                <view class="lyric-flex__item">变调夹：{{playing.capo}}</view>
+            </view>
         </view>
-        <view class ="lyric__desc lyric-flex">
-            <view class="lyric-flex__item"></view>
-            <view class="lyric-flex__item">作词:{{playing.lyricBy}}</view>
-        </view>
-        <view class ="lyric__desc lyric-flex">
-            <view class="lyric-flex__item">专辑:{{playing.album}}</view>
-            <view class="lyric-flex__item">原调：{{playing.OriginalTone}}</view>
-        </view>
-        <view class ="lyric__desc lyric-flex">
-            <view class="lyric-flex__item"></view>
-            <view class="lyric-flex__item">选调：{{playing.SelectTone}}</view>
-        </view>
-        <view class ="lyric__desc lyric-flex">
-            <view class="lyric-flex__item">歌词制作：{{playing.creator}}</view>
-            <view class="lyric-flex__item">变调夹：{{playing.capo}}</view>
-        </view>
-    </view>
     </view>
     <view class='lyric__section'>
         <block wx:for="{{playing.lyricData}}" wx:for-index="indexLine" wx:key="indexLine" wx:for-item="line">
@@ -33,13 +33,13 @@
                     <t class="i_{{indexNode}}" wx:elif="{{node.node=='t'}}">{{node.content}}</t>
                 </block>
             </view>
-            <view class="lyric__comment" wx:elif="{{line.type=='comment'}}" >说明:{{line.data}}</view>
-            <image class="lyric__comment lyric__img" lazy-load mode="widthFix" wx:elif="{{line.type=='img'}}" src="{{line.data}}" ></image>
-            <view class="lyric__desc trans" wx:elif="{{line.type=='x-trans'}}" >翻译:{{line.data}}</view>
+            <view class="lyric__comment" wx:elif="{{line.type=='comment'}}" >{{line.data}}</view>
+            <image class="lyric__img" lazy-load mode="widthFix" wx:elif="{{line.type=='img'}}" src="{{line.data}}" ></image>
+            <view class="lyric__trans" wx:elif="{{line.type=='x-trans'}}" >{{line.data}}</view>
             <view wx:else="" >{{line.data}}</view>
         </block>
     </view>
     <view class="lyric__section lyric-loadmore lyric-loadmore_line">
-        <view class="lyric-loadmore__tips lyric-loadmore__tips_in-line">不知道干嘛？长按右下角的圆圈试试</view>
+        <view class="lyric-loadmore__tips lyric-loadmore__tips_in-line">长按右下角圈圈试试?</view>
     </view>
 </scroll-view>

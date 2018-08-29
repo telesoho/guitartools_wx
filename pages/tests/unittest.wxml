@@ -1,5 +1,5 @@
 <!--pages/tests/unittest.wxml-->
-<view wx:for="{{ret.lyricData}}" wx:for-index="indexLine" wx:key="indexLine" wx:for-item="line">
+<!-- <view wx:for="{{ret.lyricData}}" wx:for-index="indexLine" wx:key="indexLine" wx:for-item="line">
 <block wx:if="{{line.type=='lyric'}}" >
     <block wx:for="{{line.data.nodes}}" wx:for-index="indexNode" wx:key="indexNode" wx:for-item="node">
         <c wx:if="{{node.node=='c'}}">{{node.content}}</c>
@@ -10,5 +10,5 @@
 <block wx:elif="{{line.type=='img'}}" >图片:{{line.data}}</block>
 <block wx:elif="{{line.type=='x-trans'}}" >翻译:{{line.data}}</block>
 <block wx:else="" >{{line.data}}</block>
-</view>
+</view> -->
 

@@ -11,7 +11,8 @@ page {
     /* font-weight: bold; */
     color: #b22222;
     padding-top: 20px;
-    transform: scale(0.9);
+    padding-left: 1.5em;
+    /* transform: scale(0.9); */
 }
 
 .repeatstart {
@@ -119,54 +120,14 @@ page {
 }
 
 .lyric__img {
-    background-color: #f6f8fa;
+    max-width: 90%;
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
 
-.weui-article {
-    padding: 20px 15px;
-    font-size: 15px;
-}
-
 .lyric__section {
     margin-bottom: 1.5em;
-}
-
-.weui-article__h1 {
-    font-size: 18px;
-    font-weight: 400;
-    margin-bottom: .9em;
-}
-
-.lyric-article__h2 {
-    font-size: 16px;
-    font-weight: 400;
-    margin-bottom: .34em;
-}
-
-.weui-article__h3 {
-    font-weight: 400;
-    font-size: 15px;
-    margin-bottom: .34em;
-}
-
-.weui-article__p {
-    margin: 0 0 .8em;
-}
-
-.page__hd {
-    padding: 40px;
-}
-
-.page__bd {
-    padding-bottom: 40px;
-}
-
-.page__bd_spacing {
-    padding-left: 15px;
-    padding-right: 15px;
 }
 
 .page__ft {
@@ -178,13 +139,17 @@ page {
     text-align: left;
     font-size: 20px;
     font-weight: 400;
+    padding: 1em;
 }
 
 .lyric__desc {
-    margin-top: 5px;
     color: #888888;
     text-align: left;
     font-size: 14px;
+    background-color: #f6f8fa;
+    border-radius: 6rpx;
+    padding: 1em;
+    margin: 1em;
 }
 
 
@@ -201,7 +166,8 @@ page {
 }
 
 .lyric__comment{
-    padding: 16px;
+    margin: 1em;
+    padding: 1em;
     overflow: auto;
     font-size: 85%;
     line-height: 1.45;
@@ -212,6 +178,12 @@ page {
 .lyric-text {
     left: -1em;
     position: relative;
+}
+
+.lyric__trans{
+    padding-left: 2.5em;
+    overflow: auto;
+    color: #888888;
 }
 
 c {
