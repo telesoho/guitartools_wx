@@ -2,7 +2,7 @@
 <view>
   <!-- <div class="left-corner">telesoho</div> -->
   <lyric id='lyric'></lyric>
-  <bloom-menu id='memu' startAngle="180" endAngle="270" radius="50"  itemAnimationDelay="40"
+  <bloom-menu id='memu' startAngle="170" endAngle="280" radius="90"  itemAnimationDelay="40"
     animationDuration="200">
     <circle slot='menu-main' percent="0" 
         size='100'

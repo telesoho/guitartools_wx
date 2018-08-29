@@ -40,8 +40,23 @@ const getRandomInt = function(max, min=0, blacklist=[]) {
   return retv;
 }
 
+/**
+ * 将rpx单位转为px单位
+ * @param {*} rpx 
+ */
+const rpx2px = function(rpx) {
+  var systemInfo = wx.getSystemInfoSync();
+  return rpx / 750 * systemInfo.windowWidth;
+}
+
+const toRadians = function (angle) {
+  return angle * (Math.PI / 180)
+}
+
 module.exports = {
   formatTime: formatTime,
   toCss,
-  getRandomInt
+  getRandomInt,
+  rpx2px,
+  toRadians
 }

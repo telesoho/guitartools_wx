@@ -1,7 +1,5 @@
 // components/BloomMenu/BloomMenu.js
-function toRadians(angle) {
-  return angle * (Math.PI / 180)
-}
+import {toRadians, rpx2px} from "../../utils/util"
 
 Component({
   options: {
@@ -21,7 +19,7 @@ Component({
     },
     radius: {
       type: Number,
-      value: 50
+      value: 100
     },
     itemAnimationDelay: {
       type: Number,
@@ -81,14 +79,12 @@ Component({
       var angleCur = this.data.startAngle
 
       for (var i = 0; i < bloom_items.length; i++) {
-        var x = this.data.radius * Math.cos(toRadians(angleCur))
-        var y = this.data.radius * Math.sin(toRadians(angleCur))
+        var x = rpx2px(this.data.radius * Math.cos(toRadians(angleCur)))
+        var y = rpx2px(this.data.radius * Math.sin(toRadians(angleCur)))
         var x3 = Number((x).toFixed(2))
         var y3 = Number((y).toFixed(2))
         var x2 = x3 * 1.2
         var y2 = y3 * 1.2
-        var x0 = 0
-        var y0 = 0
   
         // 生成expend动画
         ani.translate(x2, y2).step({
