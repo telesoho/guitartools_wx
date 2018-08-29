@@ -19,7 +19,7 @@ const TEST_LYRIC = `
 [#]过门
 [00:00.000]{Bm}{Cm}{Asub9}
 [#]主歌
-[img]http://www.google.com
+[img]https://www.google.co.jp//images/branding/googlelogo/2x/googlelogo_color_160x56dp.png
 [00:19.726]<250>で<700>い<900>ご{Am}<450>の<650>花{Bm}<501>が<450>咲<1150>き
 [x-trans]刺桐花开
 [00:24.777]<550>風<801>を<299>呼<500>び<351>嵐<749>が<1051>来<5800>た
@@ -160,18 +160,13 @@ Component({
     parseLyricData(song, lyricContent, chordContent) {
       console.log('parseLyricData', this.is)
       let parser = new LyricParser();
-      var ret = parser.parse(lyricContent, chordContent, song.chordSrc.capo)
-      this.playing.title = ret.title
-      this.playing.singer = ret.artist
-      this.playing.epname = "六叠空间"
-      this.playing.capo = ret.capo
-      this.playing.lyricData = ret.lyricData
-      this.playing.src = song.songSrc;
+      var lyric = parser.parse(lyricContent, chordContent, song.chordSrc.capo)
+      // this.playing.src = song.songSrc;
       this.setData({
-        playing: ret
+        playing: lyric
       })
       wx.setNavigationBarTitle({
-        title: `${this.playing.title} - ${this.playing.singer}`
+        title: `${lyric.title} - ${lyric.artist}`
       })
       let color = this.getRandomColor();
       wx.setNavigationBarColor({
@@ -185,7 +180,31 @@ Component({
     },
     loadLyric (song) {
       this.playing = {}
-      this.parseLyricDataV2(song, TEST_LYRIC)
+      wx.showNavigationBarLoading()
+      this.playing = {}
+      var lyricContent = '[00:00.00]\n[00:10.00]'
+      var chordContent = '[{"start": 0, "end": 10, "chord": "N"}]'
+
+      wx.request({
+        url: song.lyricSrc,
+        method: "GET",
+        success: (response) => {
+          console.log(response);
+          if(response.statusCode != 200) {
+            console.log('ERROR: load lyric failed', response.statusCode)
+            return
+          }
+          lyricContent = response.data
+          this.focusIndex = null
+        },
+        fail: (error) => {
+          console.log('ERROR: load lyric failed', error)
+        },
+        complete: () => {
+          this.parseLyricDataV2(song, TEST_LYRIC)
+          wx.hideNavigationBarLoading()
+        }
+      });      
     },
     loadLyric2 (song) {
       wx.showNavigationBarLoading()
