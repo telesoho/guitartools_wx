@@ -124,8 +124,7 @@ Component({
         });
     
         player.onTimeUpdate(() => {
-          this.lyric.scrollTo(player.currentTime * 100);
-
+          this.lyric.scrollTo(player.currentTime);
           this.playBtn.setData({percent: (player.currentTime / player.duration) * 100})
         });
         this.player = player;

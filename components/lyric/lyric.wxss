@@ -19,8 +19,8 @@ page {
     background-color: lightseagreen;
 }
 
-.focus {
-    transform: scale(1);
+.lyricRow.true {
+    background-color: lightskyblue;
 }
 
 .repeat {

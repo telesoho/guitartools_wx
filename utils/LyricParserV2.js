@@ -88,6 +88,9 @@ class LyricParserV2 {
             retObj.capo = getDescriptionItem(lrcString, /\[变调夹:(.*?)\]/, 1, '');
             retObj.creator = getDescriptionItem(lrcString, /\[歌词制作:(.*?)\]/, 1, '');
 
+            let preLyricIdx = null
+            let preTime = null
+            let preTag = null
             for (let i = 0; i < lyric.length; i++) {
                 let line = lyric[i]
                 // match lrc time
@@ -96,18 +99,21 @@ class LyricParserV2 {
                     // 处理歌词
                     // 删除所有时间标记
                     let lrcText = line.replace(/\[(\d{2}):(\d{2})\.(\d{2,3})]|\s+|\s+$|<\d+>/g, '')
-                    let lrcTag = genLyricTag(lrcText) 
+                    let lrcTag = genLyricTag(lrcText)
 
                     const time = (oneTime[1]) * 60 + parseInt(oneTime[2]) + parseInt(oneTime[3]) / ((oneTime[3] + '').length === 2 ? 100 : 1000)
-                    lyricData.push({
+                    if(preLyricIdx !== null) {
+                        lyricData[preLyricIdx].data.endTime = time
+                    }
+                    preLyricIdx = lyricData.push({
                         type: 'lyric',
                         data: {
                             time: time,
                             nodes: lrcTag,
                             focus: false,
-                            endTime: time * 100
+                            endTime: null
                         }
-                    })
+                    }) - 1
                 } else {
                     const match_comment = line.match(/^\s*\[#\](.*)/)
                     if(match_comment !== null) {

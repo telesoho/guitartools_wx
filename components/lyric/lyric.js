@@ -1,10 +1,18 @@
 // components/lyric/lyric.js
-import {LyricParser} from "../../utils/LyricParser"
-import {LyricParserV2} from "../../utils/LyricParserV2"
-import {getRandomInt} from "../../utils/util"
+import {
+  LyricParser
+} from "../../utils/LyricParser"
+import {
+  LyricParserV2
+} from "../../utils/LyricParserV2"
+import {
+  getRandomInt
+} from "../../utils/util"
 
-const NAV_BACKGROUND_COLOR = [ '#ffffff', '#add8e6', '#90ee90', '#A974A2', '#ff0000']
-const NAV_FRONT_COLOR = ['#000000', '#000000','#000000', '#ffffff', '#ffffff']
+import {watch} from "../../utils/vuefy"
+
+const NAV_BACKGROUND_COLOR = ['#ffffff', '#add8e6', '#90ee90', '#A974A2', '#ff0000']
+const NAV_FRONT_COLOR = ['#000000', '#000000', '#000000', '#ffffff', '#ffffff']
 
 const TEST_LYRIC = `
 [ti:島唄]
@@ -108,8 +116,8 @@ Component({
    */
   data: {
     screenHeight: 800,
-    toView: '',
-    playing:{
+    focusIndex: null,
+    playing: {
       title: '',
       artist: '',
       capo: 0,
@@ -122,34 +130,43 @@ Component({
   },
   attached() {
     console.log('attached', this.is);
+    watch(this, {
+      focusIndex(oldVal, newVal) {
+        
+      }
+    })
     var systemInfo = wx.getSystemInfoSync();
-    console.log(systemInfo);
-
     this.setData({
       screenHeight: systemInfo.windowHeight
     });
-  },    
+  },
   /**
    * 组件的方法列表
    */
   methods: {
     scrollTo(currentTime) {
       let k = this.getLyricIndex(currentTime);
-      console.log(k, this.data.toView)
-      if(k !== null && this.data.toView != k) {
+      if (k !== null && this.data.focusIndex != k) {
+        if(this.data.focusIndex != null) {
+          this.setData({
+            [`playing.lyricData[${this.data.focusIndex}].data.focus`]:false
+          })
+        }
         this.setData({
-          toView : k
+          [`playing.lyricData[${k}].data.focus`]:true
+        })
+        this.setData({
+          focusIndex: k
         })
       }
     },
     getLyricIndex(currentTime) {
       let lyricData = this.data.playing.lyricData;
-      for (var k in lyricData){
+      for (var k in lyricData) {
         let element = lyricData[k]
-        if(element.type === 'lyric') {
-          console.log('getLyricIndex', currentTime, element)
-          if(currentTime >= element.data.time && currentTime <= element.data.endTime) {
-            return `lyric_id${k}`
+        if (element.type === 'lyric') {
+          if (currentTime >= element.data.time && currentTime <= element.data.endTime) {
+            return k
           }
         }
       }
@@ -157,7 +174,8 @@ Component({
     },
     getRandomColor() {
       this.NavColorIndex = getRandomInt(NAV_BACKGROUND_COLOR.length, 0, [this.NavColorIndex])
-      return { frontColor: NAV_FRONT_COLOR[this.NavColorIndex],
+      return {
+        frontColor: NAV_FRONT_COLOR[this.NavColorIndex],
         backgroundColor: NAV_BACKGROUND_COLOR[this.NavColorIndex]
       }
     },
@@ -174,10 +192,10 @@ Component({
       let color = this.getRandomColor();
       wx.setNavigationBarColor({
         frontColor: color.frontColor,
-        backgroundColor:color.backgroundColor,
+        backgroundColor: color.backgroundColor,
         animation: {
-            duration: 200,
-            timingFunc: 'easeIn'
+          duration: 200,
+          timingFunc: 'easeIn'
         }
       })
     },
@@ -202,7 +220,7 @@ Component({
     //     }
     //   })
     // },
-    loadLyric (song) {
+    loadLyric(song) {
       this.playing = {}
       wx.showNavigationBarLoading()
       this.playing = {}
@@ -214,7 +232,7 @@ Component({
         method: "GET",
         success: (response) => {
           console.log(response);
-          if(response.statusCode != 200) {
+          if (response.statusCode != 200) {
             console.log('ERROR: load lyric failed', response.statusCode)
             return
           }
