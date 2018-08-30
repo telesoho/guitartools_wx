@@ -228,7 +228,7 @@ Component({
       var chordContent = '[{"start": 0, "end": 10, "chord": "N"}]'
 
       wx.request({
-        url: song.lyricSrc,
+        url: encodeURI(song.lyricSrc),
         method: "GET",
         success: (response) => {
           console.log(response);

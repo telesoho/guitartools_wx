@@ -21,7 +21,7 @@ Component({
    */
   data: {
     status: 'stop',
-    loop: false,
+    loop: true,
     songs: [
       {
       songSrc: `${SONG_SERVER}/島唄.mp3`,
@@ -62,6 +62,15 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    playSong() {
+      let player = this.getPlayer()      
+      player.title = this.lyric.data.playing.title
+      player.epname = this.lyric.data.playing.epname
+      player.singer = this.lyric.data.playing.singer
+      player.coverImgUrl = ''
+      player.webUrl = "https://blog.telesoho.com"
+      player.src = encodeURI(this.playing_song.songSrc)
+    },
     onRandomNext(e) {
       let newSongId =  getRandomInt(this.data.songs.length, 0, [this.data.songId])
       this.setData({songId: newSongId })
@@ -76,12 +85,7 @@ Component({
           player.play();
           break;
         case 'stop':
-          player.title = this.lyric.data.playing.title
-          player.epname = this.lyric.data.playing.epname
-          player.singer = this.lyric.data.playing.singer
-          player.coverImgUrl = ''
-          player.webUrl = "https://blog.telesoho.com"
-          player.src = this.playing_song.songSrc
+          this.playSong()
           break;
         case 'play':
           player.pause();
@@ -107,7 +111,7 @@ Component({
         })
         player.onEnded(() => {
           if(this.data.loop) {
-            this.player.src = this.playing.songSrc;
+            this.playSong()
           } else {
             this.setData({
               status: 'stop'
@@ -160,7 +164,7 @@ Component({
     })
     this.playBtn = this.selectComponent("#playBtn")
     this.lyric = this.selectComponent("#lyric")
-    this.loadSongList(SONG_LIST_FILE);
+    this.loadSongList(encodeURI(SONG_LIST_FILE));
   },
   /**
    * 组件生命周期函数，在组件布局完成后执行，此时可以获取节点信息（使用 SelectorQuery ）

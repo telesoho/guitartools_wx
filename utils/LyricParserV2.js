@@ -111,7 +111,7 @@ class LyricParserV2 {
                             time: time,
                             nodes: lrcTag,
                             focus: false,
-                            endTime: null
+                            endTime: Number.MAX_SAFE_INTEGER
                         }
                     }) - 1
                 } else {
