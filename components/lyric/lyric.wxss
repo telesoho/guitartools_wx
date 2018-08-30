@@ -12,7 +12,6 @@ page {
     color: #b22222;
     padding-top: 20px;
     padding-left: 1.5em;
-    /* transform: scale(0.9); */
 }
 
 .repeatstart {

@@ -20,8 +20,6 @@
     margin: 20rpx;
 }
 
-
-
 .blooming-menu__container {
     position: fixed;
     right: 120rpx;
@@ -45,7 +43,7 @@
     position: absolute;
     z-index: 1;
     cursor: pointer;
-    transition: all .28s cubic-bezier(.4, 0, .2, 1);
+    /* transition: all .28s cubic-bezier(.4, 0, .2, 1); */
     border: none;
     background-color: #A974A2;
     color: white;
