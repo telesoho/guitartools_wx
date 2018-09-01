@@ -1,5 +1,5 @@
 <!--components/lyric/lyric.wxml-->
-<scroll-view id='lyric' class='lyricPage' scroll-y scroll-into-view="lyric_id{{focusIndex}}" 
+<scroll-view class='lyricPage' scroll-y scroll-into-view="lyric_id{{focusIndex}}" 
     style="height:{{screenHeight}}px;"
     scroll-with-animation="true">
     <view class="lyric__section">
@@ -29,7 +29,8 @@
     </view>
     <view class='lyric__section'>
         <block wx:for="{{playing.lyricData}}" wx:for-index="indexLine" wx:key="indexLine" wx:for-item="line">
-            <view id='lyric_id{{indexLine}}' class="lyricRow lyric-article__h2" wx:if="{{line.type=='lyric'}}" >
+            <view id='lyric_id{{indexLine}}' class="lyricRow lyric-article__h2" wx:if="{{line.type=='lyric'}}" 
+                bind:longpress="onLyricLongPress" data-lyricidx="{{indexLine}}">
                 <d class="dot {{line.data.focus}}"></d>
                 <block wx:for="{{line.data.nodes}}" wx:for-index="indexNode" wx:key="indexNode" wx:for-item="node">
                     <c wx:if="{{node.node=='c'}}">{{node.content}}</c>

@@ -1,7 +1,7 @@
 <!--components/GuitarPlayer/GuitarPlayer.wxml-->
 <view>
   <!-- <div class="left-corner">telesoho</div> -->
-  <lyric id='lyric'></lyric>
+  <lyric id='lyric' bind:LyricLongPressEvent='onLyricLongPressEvent'></lyric>
   <bloom-menu id='memu' startAngle="170" endAngle="280" radius="90"  itemAnimationDelay="40"
     animationDuration="200">
     <circle slot='menu-main' percent="0" 

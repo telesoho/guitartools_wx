@@ -48,10 +48,8 @@ Component({
    */
   methods: {},
   created() {
-    console.debug('created',this.is);
   },
   attached() {
-    console.debug('attached',this.is);
     computed(this, {
       circle_svg () {
         return `data:image/svg+xml, \
@@ -90,6 +88,5 @@ Component({
     });
   },
   ready() {
-    console.debug('ready', this.is);
-   } 
+  }
 })

@@ -63,7 +63,7 @@ Component({
    */
   methods: {
     playSong() {
-      let player = this.getPlayer()      
+      let player = this.getPlayer()
       player.title = this.lyric.data.playing.title
       player.epname = this.lyric.data.playing.epname
       player.singer = this.lyric.data.playing.singer
@@ -92,7 +92,6 @@ Component({
           break;
       }
     },
-
     getPlayer() {
       if(!this.player) {
         const player = wx.getBackgroundAudioManager()
@@ -129,11 +128,20 @@ Component({
     
         player.onTimeUpdate(() => {
           this.lyric.scrollTo(player.currentTime);
-          this.playBtn.setData({percent: (player.currentTime / player.duration) * 100})
+          if(!this.system.startsWith("IOS")) {
+            // there are some bug on iphone, so skip this. 
+            this.playBtn.setData({percent: (player.currentTime / player.duration) * 100})
+          }
         });
         this.player = player;
       }
       return this.player;
+    },
+    onLyricLongPressEvent(e) {
+      let player = this.getPlayer()
+      if(player.src) {
+        player.seek(e.detail.data.time)
+      }
     },
     loadSongList($songlist_url) {
       wx.request({
@@ -152,6 +160,8 @@ Component({
   },
   attached() {
     console.log('attached', this.is);
+    var systemInfo = wx.getSystemInfoSync();
+    this.system = systemInfo.system
     watch(this, {
       songId(oldValue, newValue) {
         if(newValue < this.data.songs.length && newValue >= 0) {
