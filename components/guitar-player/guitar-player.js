@@ -128,7 +128,7 @@ Component({
     
         player.onTimeUpdate(() => {
           this.lyric.scrollTo(player.currentTime);
-          if(!this.system.startsWith("IOS")) {
+          if(!this.system.toLowerCase().startsWith("ios")) {
             // there are some bug on iphone, so skip this. 
             this.playBtn.setData({percent: (player.currentTime / player.duration) * 100})
           }
