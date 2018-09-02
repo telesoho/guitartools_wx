@@ -13,9 +13,9 @@
         <icon class="fa-spin" size="40" type="{{status=='play'?'pause':'play'}}"></icon>
     </circle>
     <view slot='menu-items'>
-      <bloom-item id='loop' name='loop' class='bloom-item' >
+      <bloom-item id='loop' name='loop' class='bloom-item' bind:tap="onTapLoop" >
         <i-button class='blooming-menu__item-btn' type="ghost" size='tiny' shape="circle">
-          <icon type='loop'></icon>
+          <icon type="{{loop?'loop':'stop'}}"></icon>
         </i-button>
       </bloom-item>
       <bloom-item id='muted' name='muted' class='bloom-item'>

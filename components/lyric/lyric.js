@@ -165,7 +165,7 @@ Component({
       for (var k in lyricData) {
         let element = lyricData[k]
         if (element.type === 'lyric') {
-          if (currentTime >= element.data.time && currentTime <= element.data.endTime) {
+          if (currentTime >= element.data.time && currentTime < element.data.endTime) {
             return k
           }
         }

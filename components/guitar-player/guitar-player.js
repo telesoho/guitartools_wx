@@ -75,6 +75,11 @@ Component({
       let newSongId =  getRandomInt(this.data.songs.length, 0, [this.data.songId])
       this.setData({songId: newSongId })
     },
+    onTapLoop() {
+      this.setData({
+        loop: !this.data.loop
+      });
+    },
     onTapMainMenu() {
       // wx.getBackgroundAudioManager的player只能在onpress之类的事件中设置才有效，否则报src为null错
       // 同样title,epname,singer等属性也只能在事件中设定才有效
