@@ -68,12 +68,7 @@ class LyricParserV2 {
      */
     parse(lrcString) {
         try {
-            var retObj = {
-                title: '',
-                artist: '',
-                capo: 0,
-                lyricData: []
-            }
+            var retObj = {}
 
             var lyricData = []
             const lyric = lrcString.split('\n')
@@ -83,8 +78,8 @@ class LyricParserV2 {
             retObj.album = getDescriptionItem(lrcString, /\[al:(.*?)\]/, 1, '');
             retObj.lyricBy = getDescriptionItem(lrcString, /\[ly:(.*?)\]/, 1, '');
             retObj.composerBy = getDescriptionItem(lrcString, /\[mu:(.*?)\]/, 1, '');
-            retObj.OriginalTone = getDescriptionItem(lrcString, /\[原调:(.*?)\]/, 1, '');
-            retObj.SelectTone = getDescriptionItem(lrcString, /\[选调:(.*?)\]/, 1, '');
+            retObj.OriginalKey = getDescriptionItem(lrcString, /\[原调:(.*?)\]/, 1, '');
+            retObj.SelectKey = getDescriptionItem(lrcString, /\[选调:(.*?)\]/, 1, '');
             retObj.capo = getDescriptionItem(lrcString, /\[变调夹:(.*?)\]/, 1, '');
             retObj.creator = getDescriptionItem(lrcString, /\[歌词制作:(.*?)\]/, 1, '');
 

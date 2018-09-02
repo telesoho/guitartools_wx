@@ -15,11 +15,15 @@
             </view>
             <view class ="lyric-flex">
                 <view class="lyric-flex__item">专辑:{{playing.album}}</view>
-                <view class="lyric-flex__item">原调：{{playing.OriginalTone}}</view>
+                <view class="lyric-flex__item">原调：{{playing.OriginalKey}}</view>
             </view>
             <view class ="lyric-flex">
                 <view class="lyric-flex__item"></view>
-                <view class="lyric-flex__item">选调：{{playing.SelectTone}}</view>
+                <view class="lyric-flex__item">
+                <picker bind:change="OnChordPickerChange" value="{{index}}" range="{{chords}}">
+                    选调：{{playing.SelectKey}}
+                </picker>
+                </view>
             </view>
             <view class ="lyric-flex">
                 <view class="lyric-flex__item">歌词制作：{{playing.creator}}</view>

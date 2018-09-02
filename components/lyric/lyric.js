@@ -1,11 +1,7 @@
-import {
-  LyricParserV2
-} from "../../utils/LyricParserV2"
-import {
-  getRandomInt
-} from "../../utils/util"
-
+import {LyricParserV2} from "../../utils/LyricParserV2"
+import {getRandomInt} from "../../utils/util"
 import {watch} from "../../utils/vuefy"
+import {ChordTranspoter, getCapo} from "../../utils/chord-transposer"
 
 const NAV_BACKGROUND_COLOR = ['#ffffff', '#add8e6', '#90ee90', '#A974A2', '#ff0000']
 const NAV_FRONT_COLOR = ['#000000', '#000000', '#000000', '#ffffff', '#ffffff']
@@ -65,6 +61,7 @@ Component({
   data: {
     screenHeight: 800,
     focusIndex: null,
+    chords: ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'],
     playing: {
       title: '',
       artist: '',
@@ -92,6 +89,31 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    OnChordPickerChange(e) {
+      let selectKey = this.data.chords[e.detail.value]
+      if(selectKey == this.data.playing.SelectKey) {
+        return
+      }
+      let trans = new ChordTranspoter(this.data.playing.SelectKey, selectKey)
+      let lyricData = this.data.playing.lyricData;
+      for (var k in lyricData) {
+        let element = lyricData[k]
+        if (element.type === 'lyric') {
+          for(var node_i in element.data.nodes) {
+            let node = element.data.nodes[node_i]
+            if(node.node == 'c') {
+              this.setData({
+                [`playing.lyricData[${k}].data.nodes[${node_i}].content`]: trans.getTransChord(node.content)
+              })
+            }
+          }
+        }
+      }
+      this.setData({
+        'playing.SelectKey': selectKey,
+        'playing.capo': getCapo(selectKey, this.data.playing.OriginalKey)
+      })
+    },
     scrollTo(currentTime) {
       let k = this.getLyricIndex(currentTime);
       if (k !== null && this.data.focusIndex != k) {
@@ -131,21 +153,24 @@ Component({
       console.log('parseLyricDataV2', this.is)
       let parser = new LyricParserV2();
       var ret = parser.parse(lyricContent)
-      this.setData({
-        playing: ret
-      })
-      wx.setNavigationBarTitle({
-        title: `${ret.title} - ${ret.artist}`
-      })
-      let color = this.getRandomColor();
-      wx.setNavigationBarColor({
-        frontColor: color.frontColor,
-        backgroundColor: color.backgroundColor,
-        animation: {
-          duration: 200,
-          timingFunc: 'easeIn'
-        }
-      })
+      if(ret) {
+        ret.capo = getCapo(ret.SelectKey, ret.OriginalKey);
+        this.setData({
+          playing: ret
+        })
+        wx.setNavigationBarTitle({
+          title: `${ret.title} - ${ret.artist}`
+        })
+        let color = this.getRandomColor();
+        wx.setNavigationBarColor({
+          frontColor: color.frontColor,
+          backgroundColor: color.backgroundColor,
+          animation: {
+            duration: 200,
+            timingFunc: 'easeIn'
+          }
+        })
+      }
     },
     loadLyric(song) {
       this.playing = {}
