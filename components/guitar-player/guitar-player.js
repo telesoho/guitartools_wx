@@ -22,40 +22,7 @@ Component({
   data: {
     status: 'stop',
     loop: true,
-    songs: [
-      {
-      songSrc: `${SONG_SERVER}/島唄.mp3`,
-      lyricSrc: `${SONG_SERVER}/島唄.xtrc`,
-      chordSrc: {
-          src: `${SONG_SERVER}/島唄.chord.json`,
-          capo: 1
-        }
-      },
-      {
-        songSrc: `${SONG_SERVER}/小幸运.mp3`,
-        lyricSrc: `${SONG_SERVER}/小幸运.trc`,
-        chordSrc: {
-            src: `${SONG_SERVER}/小幸运.chord.json`,
-            capo: 0
-        }
-      },
-      {
-        songSrc: `${SONG_SERVER}/借我.mp3`,
-        lyricSrc: `${SONG_SERVER}/借我.trc`,
-        chordSrc: {
-            src: `${SONG_SERVER}/借我.chord.json`,
-            capo: 0
-        }
-      },
-      {
-        songSrc: `${SONG_SERVER}/春风十里-毛南子.mp3`,
-        lyricSrc: `${SONG_SERVER}/春风十里-毛南子.mp3.lrc`,
-        chordSrc: {
-            src: `${SONG_SERVER}/春风十里-毛南子.chord.json`,
-            capo: 0
-        }
-      }
-    ]
+    songs: []
   },
 
   /**
@@ -157,7 +124,11 @@ Component({
             console.log('response.data', response.data);
             this.setData({
               songs: response.data
-            })
+            });
+            let player = this.getPlayer();
+            player.stop();
+            this.playing_song = response.data[this.data.songId]
+            this.lyric.loadLyric(this.playing_song)
           }
         }
       });
@@ -169,6 +140,7 @@ Component({
     this.system = systemInfo.system
     watch(this, {
       songId(oldValue, newValue) {
+        console.log('songId', oldValue, newValue)
         if(newValue < this.data.songs.length && newValue >= 0) {
           let player = this.getPlayer();
           player.stop();
