@@ -2,6 +2,11 @@ const CHORDS = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B','C','C#','D
 
 class ChordTranspoter {
 
+    /**
+     * 构造函数
+     * @param {string} orgKey 
+     * @param {string} newKey 
+     */
     constructor(orgKey, newKey) {
         this.orgKey = orgKey;
         this.newKey = newKey;
@@ -11,6 +16,10 @@ class ChordTranspoter {
         this.offset = Math.abs(orgIndex - newIndex)
     }
 
+    /**
+     * 将原Key的和弦数组转化为新Key的和弦
+     * @param {Array} chords 
+     */
     getTransChords(chords) {
         var i = 0;
         for (i = chords.length; i--;) {
@@ -19,12 +28,27 @@ class ChordTranspoter {
         }
         return chords;
     }
-
+    
+    /**
+     * 
+     * @param {string} chord 
+     */
     getTransChord(chord) {
+		let chords = chord.split("/");
+      	for(var i =0; i < chords.length; i++) {
+        	chords[i] = this._getTransChord(chords[i]);
+        }
+      	return chords.join("/");
+    }
+
+    _getTransChord(chord) {
         let c = chord
         var extension = c.indexOf('#') !== -1 ? c.slice(c.indexOf('#') + 1, c.length) : c.slice(1, c.length);
-        c = c.replace(extension, "");
-        c = CHORDS[CHORDS.indexOf(c) + this.offset] + extension;
+
+        if(CHORDS.indexOf(c) !== -1) {  
+	        c = c.replace(extension, "");
+        	c = CHORDS[CHORDS.indexOf(c) + this.offset] + extension;
+        }
         return c;
     }
 }
