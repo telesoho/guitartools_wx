@@ -84,8 +84,8 @@ class LyricParserV2 {
             retObj.creator = getDescriptionItem(lrcString, /\[歌词制作:(.*?)\]/, 1, '');
 
             let preLyricIdx = null
-            let preTime = null
-            let preTag = null
+            // let preTime = null
+            // let preTag = null
             for (let i = 0; i < lyric.length; i++) {
                 let line = lyric[i]
                 // match lrc time
@@ -136,7 +136,6 @@ class LyricParserV2 {
                 }
             }
             retObj.lyricData = lyricData
-            console.log(retObj)
             return retObj
         } catch (error) {
             console.log(error)

@@ -150,6 +150,9 @@ Component({
       });
     },
     onTapHelp(e) {
+      this.setData({
+        songId: -1
+      })
       this.playing_song = {
         'lyricSrc': "help_lyric.json",
         'songSrc':'https://guitartools-1257167903.cos.ap-chengdu.myqcloud.com/我要你.mp3'

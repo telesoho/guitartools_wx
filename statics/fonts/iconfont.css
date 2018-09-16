@@ -1,22 +1,3 @@
-.icon {
-  display: inline-block;
-  font-family: Ionicons;
-  speak: none;
-  font-style: normal;
-  font-weight: 400;
-  font-variant: normal;
-  text-transform: none;
-  text-rendering: auto;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.ivu-btn>.icon {
-  line-height: 1;
-}
-
-
 
 @font-face {font-family: "guitartool";
   src: url('iconfont.eot?t=1537079601690'); /* IE9*/
@@ -26,14 +7,13 @@
   url('iconfont.svg?t=1537079601690#guitartool') format('svg'); /* iOS 4.1- */
 }
 
-.icon {
-  font-family: "guitartool" !important;
-  font-size: 32rpx;
-  font-style: normal;
+.guitartool {
+  font-family:"guitartool" !important;
+  font-size:16px;
+  font-style:normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 
 .icon-danquxunhuan:before { content: "\e611"; }
 
@@ -61,68 +41,3 @@
 
 .icon-if_reference_:before { content: "\e609"; }
 
-
-.icon-guitar:before {
-  content: "\e601";
-}
-
-.icon-ukulele:before {
-  content: "\e602";
-}
-
-.icon-loop:before {
-  content: "\e603";
-}
-
-.icon-pause:before {
-  content: "\e604";
-}
-
-.icon-play:before {
-  content: "\e605";
-}
-
-.icon-volume-off:before {
-  content: "\e606";
-}
-
-.icon-volume-on:before {
-  content: "\e607";
-}
-
-.icon-stop:before {
-  content: "\e608";
-}
-
-.icon-help:before {
-  content: "\e609";
-}
-
-.icon-lyric-follow-off:before { content: "\e69e"; }
-
-.icon-lyric-follow-on:before { content: "\e69f"; }
-
-.icon-random:before { content: "\e61e"; }
-
-.icon-loop1:before { content: "\e611"; }
-
-.fa-spin {
-  -webkit-animation: fa-spin 2s infinite linear;
-  animation: fa-spin 2s infinite linear;
-}
-
-.fa-pulse {
-  -webkit-animation: fa-spin 1s infinite steps(8);
-  animation: fa-spin 1s infinite steps(8);
-}
-
-@keyframes fa-spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
-  }
-}
