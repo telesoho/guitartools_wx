@@ -14,7 +14,6 @@ class ChordTranspoter {
         var newIndex = CHORDS.indexOf(newKey);
         newIndex = orgIndex > newIndex ? CHORDS.lastIndexOf(newKey) : newIndex;
         this.offset = Math.abs(orgIndex - newIndex)
-        console.log(this)
     }
 
     /**
@@ -44,7 +43,6 @@ class ChordTranspoter {
         let c = chord
         var extension = c.indexOf('#') !== -1 ? c.slice(c.indexOf('#') + 1, c.length) : c.slice(1, c.length);
         c = c.replace(extension, "");
-        console.log(c, extension);
 
         if (CHORDS.indexOf(c) !== -1) {
             c = c.replace(extension, "");
