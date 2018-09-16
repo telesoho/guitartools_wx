@@ -69,12 +69,6 @@ const getCapo = function (selectKey, originKey) {
     return Math.abs(selectKeyIndex - originKeyIndex)
 }
 
-// let t = new ChordTranspoter('C', 'A');
-// console.log(t.getTransChords(['A/C','C/13', 'C7', 'Cm', 'Am']));
-//console.log(t.getTransChord('A'));
-//console.log(getCapo('C','A'));
-// console.log(t.getTransChord('C#/13'));
-
 module.exports = {
     ChordTranspoter,
     getCapo
