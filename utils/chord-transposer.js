@@ -1,4 +1,4 @@
-const CHORDS = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B','C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
+const CHORDS = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
 class ChordTranspoter {
 
@@ -14,6 +14,7 @@ class ChordTranspoter {
         var newIndex = CHORDS.indexOf(newKey);
         newIndex = orgIndex > newIndex ? CHORDS.lastIndexOf(newKey) : newIndex;
         this.offset = Math.abs(orgIndex - newIndex)
+        console.log(this)
     }
 
     /**
@@ -21,33 +22,35 @@ class ChordTranspoter {
      * @param {Array} chords 
      */
     getTransChords(chords) {
-        var i = 0;
-        for (i = chords.length; i--;) {
-            var c = chords[i]
-            chords[i] = this.getTransChord(c);
+        for (var i = chords.length; i--;) {
+            chords[i] = this.getTransChord(chords[i]);
         }
         return chords;
     }
-    
+
     /**
      * 
      * @param {string} chord 
      */
     getTransChord(chord) {
-		let chords = chord.split("/");
-      	for(var i =0; i < chords.length; i++) {
-        	chords[i] = this._getTransChord(chords[i]);
+        let chords = chord.split("/");
+        for (var i = 0; i < chords.length; i++) {
+            chords[i] = this._getTransChord(chords[i]);
         }
-      	return chords.join("/");
+        return chords.join("/");
     }
 
     _getTransChord(chord) {
         let c = chord
         var extension = c.indexOf('#') !== -1 ? c.slice(c.indexOf('#') + 1, c.length) : c.slice(1, c.length);
+        c = c.replace(extension, "");
+        console.log(c, extension);
 
-        if(CHORDS.indexOf(c) !== -1) {  
-	        c = c.replace(extension, "");
-        	c = CHORDS[CHORDS.indexOf(c) + this.offset] + extension;
+        if (CHORDS.indexOf(c) !== -1) {
+            c = c.replace(extension, "");
+            c = CHORDS[CHORDS.indexOf(c) + this.offset] + extension;
+        } else {
+            return chord;
         }
         return c;
     }
@@ -58,7 +61,7 @@ class ChordTranspoter {
  * @param {*} selectKey 选调
  * @param {*} originKey 原调
  */
-const getCapo = function(selectKey, originKey) {
+const getCapo = function (selectKey, originKey) {
     let selectKeyIndex = CHORDS.indexOf(selectKey);
     var originKeyIndex = CHORDS.indexOf(originKey);
     originKeyIndex = selectKeyIndex > originKeyIndex ? CHORDS.lastIndexOf(originKey) : originKeyIndex;
@@ -66,6 +69,13 @@ const getCapo = function(selectKey, originKey) {
     return Math.abs(selectKeyIndex - originKeyIndex)
 }
 
+// let t = new ChordTranspoter('C', 'A');
+// console.log(t.getTransChords(['A/C','C/13', 'C7', 'Cm', 'Am']));
+//console.log(t.getTransChord('A'));
+//console.log(getCapo('C','A'));
+// console.log(t.getTransChord('C#/13'));
+
 module.exports = {
-    ChordTranspoter,getCapo
+    ChordTranspoter,
+    getCapo
 }
