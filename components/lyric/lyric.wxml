@@ -1,5 +1,4 @@
-<!--components/lyric/lyric.wxml-->
-<scroll-view class='lyricPage' scroll-y scroll-into-view="lyric_id{{focusIndex}}" 
+<scroll-view class='lyricPage' scroll-y scroll-into-view="lyric_id{{focusIndex}}"  bind:tap="onPageTap" 
     style="height:{{screenHeight}}px;"
     scroll-with-animation="true">
     <view class="lyric__section">
@@ -7,19 +6,19 @@
         <view class="lyric__desc">
             <view class ="lyric-flex">
                 <view class="lyric-flex__item">演唱：{{playing.artist}}</view>
-                <view class="lyric-flex__item">作曲:{{playing.composerBy}}</view>
+                <view class="lyric-flex__item">作曲：{{playing.composerBy}}</view>
             </view>
             <view class ="lyric-flex">
                 <view class="lyric-flex__item"></view>
-                <view class="lyric-flex__item">作词:{{playing.lyricBy}}</view>
+                <view class="lyric-flex__item">作词：{{playing.lyricBy}}</view>
             </view>
             <view class ="lyric-flex">
-                <view class="lyric-flex__item">专辑:{{playing.album}}</view>
+                <view class="lyric-flex__item">专辑：{{playing.album}}</view>
                 <view class="lyric-flex__item">原调：{{playing.OriginalKey}}</view>
             </view>
             <view class ="lyric-flex">
                 <view class="lyric-flex__item"></view>
-                <view class="lyric-flex__item">
+                <view class="lyric-flex__item select-key">
                 <picker bind:change="OnChordPickerChange" value="{{index}}" range="{{chords}}">
                     选调：{{playing.SelectKey}}
                 </picker>
@@ -37,7 +36,7 @@
                 bind:longpress="onLyricLongPress" data-lyricidx="{{indexLine}}">
                 <d class="dot {{line.data.focus}}"></d>
                 <block wx:for="{{line.data.nodes}}" wx:for-index="indexNode" wx:key="indexNode" wx:for-item="node">
-                    <c wx:if="{{node.node=='c'}}">{{node.content}}</c>
+                    <c wx:if="{{node.node=='c'}}" catch:tap="onChordTap" data-chord="{{node.content}}">{{node.content}}</c>
                     <t class="i_{{indexNode}}" wx:elif="{{node.node=='t'}}">{{node.content}}</t>
                 </block>
             </view>
@@ -46,6 +45,11 @@
             <view class="lyric__trans" wx:elif="{{line.type=='x-trans'}}" >{{line.data}}</view>
             <view wx:else="" >{{line.data}}</view>
         </block>
+    </view>
+    <view  class="chord-panel" style="display:{{showChordPanel?'block':'none'}};">
+        <scroll-view scroll-x="{{true}}" style="white-space:nowrap" class="lyric-flex center">
+            <image wx:for="{{chord_charts}}" wx:key="index" mode="widthFix" style="width:120rpx; height:0px" class="lyric-flex__item" src="{{item.image}}"/>
+        </scroll-view>
     </view>
     <view class="lyric__section lyric-loadmore lyric-loadmore_line">
         <view class="lyric-loadmore__tips lyric-loadmore__tips_in-line">长按右下角圈圈试试?</view>

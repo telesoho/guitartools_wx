@@ -178,13 +178,31 @@ page {
 .lyric-flex {
     display: -webkit-box;
     display: -webkit-flex;
-    display: flex
+    display: flex;
+    flex-flow: row;
 }
 
 .lyric-flex__item {
     -webkit-box-flex: 1;
     -webkit-flex: 1;
-    flex: 1
+    flex: 1;
+}
+
+.select-key {
+    color:  #e64340
+}
+
+.chord-panel {
+    top:45%;
+    width: 85%;
+    position:fixed;
+    padding: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
+    overflow: hidden;
+    background: #fff;
+    border: 1rpx solid #dddee1;
+    border-radius: 5px
 }
 
 .lyric__comment{
