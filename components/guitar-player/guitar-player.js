@@ -19,6 +19,7 @@ Component({
    * 组件的初始数据
    */
   data: {
+    auto_scroll : true,
     status: 'stop',
     loop: true,
     songs: []
@@ -49,6 +50,17 @@ Component({
       });
       this.setData({
         loop: loop
+      });
+    },
+    onTapAutoScroll() {
+      let auto_scroll = !this.data.auto_scroll
+      this.msg.handleShow({
+        content: auto_scroll?"已经打开歌词自动跟随":"已经关闭歌词自动跟随",
+        type: "success"
+      });
+      this.lyric.enableAutoScroll(auto_scroll)
+      this.setData({
+        auto_scroll: auto_scroll
       });
     },
     onTapMainMenu() {
@@ -132,10 +144,17 @@ Component({
             let player = this.getPlayer();
             player.stop();
             this.playing_song = response.data[this.data.songId]
-            this.lyric.loadLyric(this.playing_song)
+            this.lyric.loadLyric(this.playing_song.lyricSrc)
           }
         }
       });
+    },
+    onTapHelp(e) {
+      this.playing_song = {
+        'lyricSrc': "help_lyric.json",
+        'songSrc':'https://guitartools-1257167903.cos.ap-chengdu.myqcloud.com/我要你.mp3'
+      }
+      this.lyric.loadHelp()
     }
   },
   attached() {
@@ -149,7 +168,7 @@ Component({
           let player = this.getPlayer();
           player.stop();
           this.playing_song = this.data.songs[newValue]
-          this.lyric.loadLyric(this.playing_song)
+          this.lyric.loadLyric(this.playing_song.lyricSrc)
         }
       }
     })

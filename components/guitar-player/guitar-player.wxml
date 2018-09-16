@@ -19,7 +19,7 @@
           <icon type="{{loop?'loop':'stop'}}"></icon>
         </i-button>
       </bloom-item>
-      <bloom-item id='muted' name='muted' class='bloom-item'>
+      <bloom-item id='muted' name='muted' class='bloom-item' bind:tap="onTapAutoScroll">
         <i-button class='blooming-menu__item-btn' type="ghost" size='tiny' shape="circle">
           <icon type='volume-on'></icon>
         </i-button>
@@ -29,7 +29,7 @@
           <icon type='guitar'></icon>
         </i-button>
       </bloom-item>
-      <bloom-item id='help' name='help' class='bloom-item'>
+      <bloom-item id='help' name='help' class='bloom-item' bind:tap="onTapHelp">
         <i-button class='blooming-menu__item-btn' type="ghost" size='tiny' shape="circle">
           <icon type='help'></icon>
         </i-button>

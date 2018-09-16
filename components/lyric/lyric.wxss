@@ -19,6 +19,10 @@ page {
     background-color: lightseagreen;
 }
 
+.lyricRow.lyric-article__h2.true {
+    color : darkgreen
+}
+
 .dot.true {
     position: relative;
     display: inline-block;

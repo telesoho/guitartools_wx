@@ -1,8 +1,9 @@
 import {LyricParserV2} from "../../utils/LyricParserV2"
 import {getRandomInt} from "../../utils/util"
-import {watch} from "../../utils/vuefy"
+import {computed} from "../../utils/vuefy"
 import {ChordTranspoter, getCapo} from "../../utils/chord-transposer"
 import {GUITAR_CHORD_CHARTS} from "guitar_chord_charts"
+import {HELP_LYRIC} from "help_lyric"
 
 const NAV_BACKGROUND_COLOR = ['#ffffff', '#add8e6', '#90ee90', '#A974A2', '#ff0000']
 const NAV_FRONT_COLOR = ['#000000', '#000000', '#000000', '#ffffff', '#ffffff']
@@ -20,6 +21,7 @@ Component({
    * 组件的初始数据
    */
   data: {
+    auto_scroll: true,
     showChordPanel: false,
     screenHeight: 800,
     focusIndex: null,
@@ -38,9 +40,13 @@ Component({
   },
   attached() {
     console.log('attached', this.is);
-    watch(this, {
-      focusIndex(oldVal, newVal) {
-        
+    computed(this, {
+      scrollToId() {
+        if(this.data.auto_scroll) {
+          return `lyric_id${this.data.focusIndex}`
+        } else {
+          return 'lyric_id'
+        }
       }
     })
     var systemInfo = wx.getSystemInfoSync();
@@ -75,6 +81,11 @@ Component({
       this.setData({
         'playing.SelectKey': selectKey,
         'playing.capo': getCapo(selectKey, this.data.playing.OriginalKey)
+      })
+    },
+    enableAutoScroll(auto_scroll) {
+      this.setData({
+        auto_scroll: auto_scroll
       })
     },
     scrollTo(currentTime) {
@@ -112,7 +123,7 @@ Component({
         backgroundColor: NAV_BACKGROUND_COLOR[this.NavColorIndex]
       }
     },
-    parseLyricDataV2(song, lyricContent) {
+    parseLyricDataV2(lyricContent) {
       console.log('parseLyricDataV2', this.is)
       let parser = new LyricParserV2();
       var ret = parser.parse(lyricContent)
@@ -148,19 +159,22 @@ Component({
         })
       }
     },
-    loadLyric(song) {
+    loadHelp() {
+      this.playing = {}
+      this.parseLyricDataV2(HELP_LYRIC)
+    },
+    loadLyric(lyricSrc) {
+      console.log(lyricSrc)
       this.playing = {}
       wx.showNavigationBarLoading()
-      this.playing = {}
       var lyricContent = '[00:00.00]\n[00:10.00]'
 
       wx.request({
-        url: encodeURI(song.lyricSrc),
+        url: encodeURI(lyricSrc),
         method: "GET",
         success: (response) => {
-          console.log(response);
           if (response.statusCode != 200) {
-            console.log('ERROR: load lyric failed', response.statusCode)
+            console.log('ERROR: load lyric failed', response)
             return
           }
           lyricContent = response.data
@@ -170,8 +184,7 @@ Component({
           console.log('ERROR: load lyric failed', error)
         },
         complete: () => {
-          this.parseLyricDataV2(song, lyricContent)
-          // this.parseLyricDataV2(song, TEST_LYRIC)
+          this.parseLyricDataV2(lyricContent)
           wx.hideNavigationBarLoading()
         }
       });
