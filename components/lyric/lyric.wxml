@@ -41,7 +41,7 @@
                 </block>
             </view>
             <view class="lyric__comment" wx:elif="{{line.type=='comment'}}" >{{line.data}}</view>
-            <image class="lyric__img" lazy-load mode="widthFix" wx:elif="{{line.type=='img'}}" src="{{line.data}}" ></image>
+            <image class="lyric__img" lazy-load mode="widthFix" wx:elif="{{line.type=='img'}}" src="{{line.data}}" data-imgurl="{{line.data}}" bind:longpress="onLongPressImage" ></image>
             <view class="lyric__trans" wx:elif="{{line.type=='x-trans'}}" >{{line.data}}</view>
             <view wx:else="" >{{line.data}}</view>
         </block>

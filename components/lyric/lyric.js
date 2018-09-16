@@ -193,6 +193,14 @@ Component({
       var myEventDetail = this.data.playing.lyricData[e.currentTarget.dataset.lyricidx]; // detail对象，提供给事件监听函数
       var myEventOption = { bubbles: true, composed: true } // 触发事件的选项
       this.triggerEvent('LyricLongPressEvent', myEventDetail, myEventOption)
+    },
+    onLongPressImage(e) {
+      console.log(e.target.dataset.imgurl)
+      if(e.target.dataset.imgurl){
+        wx.previewImage({
+          urls:[e.target.dataset.imgurl]
+        })
+      }
     }
   }
 })
