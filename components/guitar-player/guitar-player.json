@@ -6,6 +6,7 @@
     "icon" : "/components/icon/icon",
     "i-button": "/components/button/button",
     "bloom-item": "/components/bloom-item/bloom-item",
-    "lyric": "/components/lyric/lyric"
+    "lyric": "/components/lyric/lyric",
+    "message": "/components/message/message"
   }
 }

@@ -1,4 +1,3 @@
-// components/GuitarPlayer/GuitarPlayer.js
 import {watch} from "../../utils/vuefy"
 import {getRandomInt} from "../../utils/util"
 
@@ -43,8 +42,13 @@ Component({
       this.setData({songId: newSongId })
     },
     onTapLoop() {
+      let loop = !this.data.loop
+      this.msg.handleShow({
+        content: loop?"已经打开单曲循环模式":"已经关闭单曲循环模式",
+        type: "success"
+      });
       this.setData({
-        loop: !this.data.loop
+        loop: loop
       });
     },
     onTapMainMenu() {
@@ -151,6 +155,7 @@ Component({
     })
     this.playBtn = this.selectComponent("#playBtn")
     this.lyric = this.selectComponent("#lyric")
+    this.msg = this.selectComponent("#message")
     this.loadSongList(encodeURI(SONG_LIST_FILE));
   },
   /**
