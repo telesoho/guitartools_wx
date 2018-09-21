@@ -3,6 +3,7 @@ import {getRandomInt} from "../../utils/util"
 import {computed} from "../../utils/vuefy"
 import {ChordTranspoter, getCapo} from "../../utils/chord-transposer"
 import {GUITAR_CHORD_CHARTS} from "guitar_chord_charts"
+import {UKULELE_CHORD_CHARTS} from "ukulele_chord_charts"
 import {HELP_LYRIC} from "help_lyric"
 
 const NAV_BACKGROUND_COLOR = ['#ffffff', '#add8e6', '#90ee90', '#A974A2', '#ff0000']
@@ -36,7 +37,8 @@ Component({
       startIndex: -1,
       endIndex: -1
     },
-    guitar_chord_charts: []
+    instruments: 'guitar',
+    chord_charts: [],
   },
   attached() {
     console.log('attached', this.is);
@@ -58,6 +60,11 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    setInstruments(instruments){
+      this.setData({
+        instruments: instruments
+      })
+    },
     OnChordPickerChange(e) {
       let selectKey = this.data.chords[e.detail.value]
       if(selectKey == this.data.playing.SelectKey) {
@@ -147,10 +154,17 @@ Component({
       }
     },
     onChordTap(e) {
-      this.setData({
-        showChordPanel: true,
-        chord_charts: GUITAR_CHORD_CHARTS[e.target.dataset.chord]
-      })
+      if(this.data.instruments == 'ukulele'){
+        this.setData({
+          showChordPanel: true,
+          chord_charts: UKULELE_CHORD_CHARTS[e.target.dataset.chord]
+        })
+      } else {
+        this.setData({
+          showChordPanel: true,
+          chord_charts: GUITAR_CHORD_CHARTS[e.target.dataset.chord]
+        })
+      }
     },
     onPageTap(e) {
       if(this.data.showChordPanel) {

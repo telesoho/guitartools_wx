@@ -22,6 +22,7 @@ Component({
     auto_scroll : true,
     status: 'stop',
     loop: true,
+    instruments: 'guitar',
     songs: []
   },
 
@@ -29,6 +30,17 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    onInstrumentsChange (e) {
+      let instruments = this.data.instruments == 'guitar'?'ukulele':'guitar'
+      this.setData({
+        instruments: instruments
+      })
+      this.lyric.setInstruments(instruments)
+      this.msg.handleShow({
+        content: `和弦已经切换为${instruments}模式`,
+        type: "success"
+      });      
+    },
     playSong() {
       let player = this.getPlayer()
       player.title = this.lyric.data.playing.title

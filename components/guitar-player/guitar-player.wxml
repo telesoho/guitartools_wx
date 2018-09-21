@@ -3,7 +3,7 @@
   <!-- <div class="left-corner">telesoho</div> -->
   <message id="message"></message>
   <lyric id='lyric' bind:LyricLongPressEvent='onLyricLongPressEvent'></lyric>
-  <bloom-menu id='memu' startAngle="170" endAngle="280" radius="90"  itemAnimationDelay="40"
+  <bloom-menu id='memu' startAngle="160" endAngle="290" radius="100"  itemAnimationDelay="40"
     animationDuration="200">
     <circle slot='menu-main' percent="0" 
         size='100'
@@ -24,9 +24,14 @@
           <icon type="{{auto_scroll?'lyric-follow-on':'lyric-follow-off'}}"></icon>
         </i-button>
       </bloom-item>
-      <bloom-item id='instruments'  name='instruments' class='bloom-item' bind:tap="onRandomNext">
+      <bloom-item id='randomNext'  name='randomNext' class='bloom-item' bind:tap="onRandomNext">
         <i-button class='blooming-menu__item-btn' id='instrumentsBtn' size='tiny' type="ghost" shape="circle">
           <icon type='random'></icon>
+        </i-button>
+      </bloom-item>
+      <bloom-item id='instruments'  name='instruments' class='bloom-item' bind:tap="onInstrumentsChange">
+        <i-button class='blooming-menu__item-btn' id='instrumentsBtn' size='tiny' type="ghost" shape="circle">
+          <icon type='{{instruments}}'></icon>
         </i-button>
       </bloom-item>
       <bloom-item id='help' name='help' class='bloom-item' bind:tap="onTapHelp">
