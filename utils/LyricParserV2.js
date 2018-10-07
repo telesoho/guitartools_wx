@@ -93,7 +93,7 @@ class LyricParserV2 {
                 if (oneTime != null) {
                     // 处理歌词
                     // 删除所有时间标记
-                    let lrcText = line.replace(/\[(\d{2}):(\d{2})\.(\d{2,3})]|\s+|\s+$|<\d+>/g, '')
+                    let lrcText = line.replace(/\[(\d{2}):(\d{2})\.(\d{2,3})]|\s+|\s+$|<\d+>/, '')
                     let lrcTag = genLyricTag(lrcText)
 
                     const time = (oneTime[1]) * 60 + parseInt(oneTime[2]) + parseInt(oneTime[3]) / ((oneTime[3] + '').length === 2 ? 100 : 1000)
